@@ -20,11 +20,12 @@ STOPWORDS = frozenset(
 
 _WORD = re.compile(r"[a-z0-9]+")
 _DIGIT = re.compile(r"[0-9]")
+_ACRONYM = re.compile(r"\b(?:[a-z]\.){2,}")  # "p.a.s.s." -> "pass"
 
 
 def normalize(s: str) -> str:
     s = unicodedata.normalize("NFKD", s)
-    s = "".join(ch for ch in s if not ("̀" <= ch <= "ͯ"))
+    s = "".join(ch for ch in s if not ("\u0300" <= ch <= "\u036f"))
     return s.lower()
 
 
@@ -44,7 +45,8 @@ def stem(t: str) -> str:
 
 def tokenize(s: str) -> list[str]:
     out = []
-    for w in _WORD.findall(normalize(s)):
+    text = _ACRONYM.sub(lambda m: m.group(0).replace(".", ""), normalize(s))
+    for w in _WORD.findall(text):
         if w in STOPWORDS:
             continue
         if len(w) < 2 and not _DIGIT.search(w):

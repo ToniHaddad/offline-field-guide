@@ -7,6 +7,8 @@ from fieldguide.structure import build_sections
 
 from pdfmaker import PdfMaker
 
+BULLET_CHAR = chr(0x2022)
+
 
 def sections_of(path):
     pages, toc = read_pdf(str(path))
@@ -173,6 +175,7 @@ def test_heading_levels_and_paths(tmp_path):
     m.heading("Extinguisher Types", size=15)
     m.body(3)
     m.text("Checking the Gauge", bold=True)
+    m.space(6)
     m.body(2)
     m.heading("Unit 3: Medical Operations", size=20)
     m.body(2)
@@ -181,6 +184,16 @@ def test_heading_levels_and_paths(tmp_path):
     gauge = by_title(secs, "Checking the Gauge")
     assert gauge.path == ["Unit 2: Fire Safety", "Extinguisher Types"]
     assert by_title(secs, "Unit 3: Medical Operations").path == []
+
+
+def test_bold_run_in_line_is_not_a_heading(tmp_path):
+    m = PdfMaker(header="")
+    m.heading("Gas Leaks")
+    m.text("Never use a lighter or switch on lights", bold=True)
+    m.text("when you smell gas; leave the building first.")
+    m.body(2)
+    path = m.save(tmp_path / "runin.pdf")
+    assert [s.title for s in sections_of(path)] == ["Gas Leaks"]
 
 
 def test_outline_marks_headings_the_fonts_would_miss(tmp_path):
@@ -214,3 +227,20 @@ def test_wrapped_heading_is_merged(tmp_path):
     m.body(3)
     path = m.save(tmp_path / "wrap.pdf")
     assert [s.title for s in sections_of(path)] == ["How to Lift a Heavy Object Using Leverage and Cribbing"]
+
+
+def test_bullet_glyph_drawn_apart_from_its_text(tmp_path):
+    # Word exports often draw the bullet as its own, smaller span: its top sits below the text top.
+    m = PdfMaker()
+    m.heading("Size-up Questions")
+    m.text("Responders ask:")
+    for item in ("What is going on;", "How bad the situation is;", "What resources will be needed."):
+        m.page.insert_text((90, m.y), BULLET_CHAR, fontsize=9, fontname="helv")
+        m.text(item, x=108)
+    m.body(1)
+    path = m.save(tmp_path / "bullets.pdf")
+    sec = by_title(sections_of(path), "Size-up Questions")
+    lists = [b for b in sec.blocks if b["t"] == "ul"]
+    assert [i["text"] for i in lists[0]["items"]] == [
+        "What is going on;", "How bad the situation is;", "What resources will be needed."]
+    assert BULLET_CHAR not in sec.text()

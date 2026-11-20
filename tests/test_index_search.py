@@ -50,6 +50,7 @@ def test_index_structure():
 def test_tokenizer_basics():
     assert tokenize("Shutting off the GAS valves") == ["shutt", "off", "gas", "valve"]
     assert tokenize("Injuries, bleeding!") == ["injury", "bleed"]
+    assert tokenize("Remember P.A.S.S. at 5 p.m.") == ["remember", "pass", "5", "pm"]
 
 
 def run_node(script: str, *args: str) -> str:
@@ -61,10 +62,10 @@ def run_node(script: str, *args: str) -> str:
 def test_tokenizer_parity_with_javascript():
     samples = [
         "Shutting off the GAS valves",
-        "Injuries, bleeding! Café crème; 3-step check (10 min)",
+        "Injuries, bleeding! Caf\u00e9 cr\u00e8me; 3-step check (10 min)",
         "Classes", "processes", "glasses", "status", "basis", "studies", "tied", "controlled",
-        "X-ray of the 2nd floor at 5:30 p.m.",
-        "  Tourniquets and\tcribbing  ",
+        "X-ray of the 2nd floor at 5:30 p.m.", "Use P.A.S.S. (U.S. rules), e.g. here",
+        "  Tourniquets\u00a0and\tcribbing  ",
     ]
     script = (
         "const fs=require(process.argv[1]);"

@@ -20,8 +20,9 @@ from dataclasses import dataclass, field
 from .extract import Line, PageInfo, Table, body_size, stream
 
 NUMBERED = re.compile(r"^(?:step\s+)?(\d{1,2})\s*[.):]\s+(\S.*)$", re.IGNORECASE)
-BULLET = re.compile(r"^[•▪●○■►➢–—·*-]\s*(\S.*)$")
-CAPTION = re.compile(r"^(table|figure|exhibit)\s+[\w.-]+\s*[:.\-–]?", re.IGNORECASE)
+BULLET = re.compile(r"^[\u2022\u25aa\u25cf\u25cb\u25a0\u25ba\u27a2\u2013\u2014\u00b7\uf0b7\uf0a7\uf0d8\uf076\uf0fc*-]\s*(\S.*)$")
+CAPTION = re.compile(r"^(table|figure|exhibit)\s+[\w.-]+\s*[:.\-\u2013]?", re.IGNORECASE)
+LEADER = re.compile(r"\.{5,}|(?:\. ){4,}")  # dot leaders of a table of contents
 CONTINUED = re.compile(r"\s*[\(\[]?\s*(continued|cont'?d\.?)\s*[\)\]]?\s*$", re.IGNORECASE)
 SENTENCE_END = re.compile(r"[.!?:;]['\")\]]?$")
 
@@ -78,28 +79,44 @@ class HeadingRules:
         big = Counter()
         for p in pages:
             for ln in p.lines:
-                if self._looks_like_heading_text(ln.text) and ln.size >= self.body + 1.5:
+                if self._looks_like_heading_text(ln.text) and self._big(ln):
                     big[ln.size] += 1
         self.sizes = sorted(big, reverse=True)
+
+    def _big(self, ln: Line) -> bool:
+        # Larger than body text and bold, or much larger (a title page).
+        return ln.size >= self.body + 1.5 and (ln.bold or ln.size >= self.body * 1.5)
 
     @staticmethod
     def _looks_like_heading_text(text: str) -> bool:
         if not (2 <= len(text) <= 120) or not re.search(r"[A-Za-z]", text):
             return False
-        if NUMBERED.match(text) or BULLET.match(text) or CAPTION.match(text):
+        if NUMBERED.match(text) or BULLET.match(text) or CAPTION.match(text) or LEADER.search(text):
             return False
         return not re.search(r"[.,;]$", text)
 
-    def level(self, ln: Line) -> int | None:
-        for lvl, title in self.toc.get(ln.page, []):
-            t = _norm(ln.text)
-            if t and (t == title or (len(t) >= 8 and title.startswith(t))):
-                return lvl
+    def level(self, ln: Line, nxt: Line | None = None) -> int | None:
+        """Heading level of `ln`, or None. `nxt` is the line after it, if any."""
+        if not LEADER.search(ln.text) and not re.search(r"[,;]$", ln.text):
+            for lvl, title in self.toc.get(ln.page, []):
+                t = _norm(ln.text)
+                if t and (t == title or (len(t) >= 8 and title.startswith(t))):
+                    return lvl
         if not self._looks_like_heading_text(ln.text):
             return None
-        if ln.size >= self.body + 1.5:
+        if self._big(ln):
             return self.toc_depth + self.sizes.index(ln.size) + 1
         if ln.bold and ln.size >= self.body - 0.5 and len(ln.text) <= 90:
+            # A bold line that runs straight on into normal text at the same
+            # size is the start of a paragraph, not a heading.
+            if (
+                nxt is not None
+                and nxt.page == ln.page
+                and not nxt.bold
+                and abs(nxt.size - ln.size) < 1
+                and 0 < nxt.y0 - ln.y0 <= 1.5 * ln.size
+            ):
+                return None
             return self.toc_depth + len(self.sizes) + 1
         return None
 
@@ -200,16 +217,18 @@ class _Builder:
         if page_break:
             # The text before the break did not finish its sentence: carry on.
             return not SENTENCE_END.search(text)
-        gap = ln.y0 - prev.y1
-        close = -2 <= gap < 0.9 * max(ln.height, 6)
+        # Baseline-to-baseline distance: wrapped lines sit about 1.2 line
+        # heights apart, a new paragraph further.
+        pitch = ln.y0 - prev.y0
+        close = 0 < pitch <= 1.5 * max(ln.size, prev.size)
         if last["t"] in ("ol", "ul"):
-            return close and ln.x0 > self.list_x0 + 3
+            return close and ln.x0 >= self.list_x0 - 2
         return close and abs(ln.size - prev.size) < 1
 
 
 def _join(a: str, b: str) -> str:
-    if a.endswith("-") and not a.endswith(" -") and b[:1].islower():
-        return a[:-1] + b
+    if a.endswith("-") and not a.endswith(" -"):
+        return a + b  # keep the hyphen: "one-" + "quarter" is "one-quarter"
     return f"{a} {b}"
 
 
@@ -225,19 +244,21 @@ def build_sections(pages: list[PageInfo], toc: list[list]) -> list[Section]:
             pending = None
 
     pending_level = 0
-    for it in stream(pages):
+    items = [it for it in stream(pages) if not (isinstance(it, Line) and LEADER.search(it.text))]
+    for k, it in enumerate(items):
         if isinstance(it, Table):
             flush()
             builder.add_table(it)
             continue
-        lvl = rules.level(it)
+        nxt = items[k + 1] if k + 1 < len(items) and isinstance(items[k + 1], Line) else None
+        lvl = rules.level(it, nxt)
         if lvl is not None:
             if (
                 pending is not None
                 and it.page == pending.page
                 and it.size == pending.size
                 and it.bold == pending.bold
-                and -4 <= it.y0 - pending.y1 < 0.8 * it.height
+                and 0 < it.y0 - pending.y0 <= 1.5 * it.size
             ):
                 pending.text = f"{pending.text} {it.text}"
                 pending.y1 = it.y1
@@ -249,4 +270,4 @@ def build_sections(pages: list[PageInfo], toc: list[list]) -> list[Section]:
         flush()
         builder.add_line(it)
     flush()
-    return [s for s in builder.sections if s.blocks]
+    return [s for s in builder.sections if s.blocks and "table of contents" not in s.title.lower()]

@@ -22,7 +22,7 @@ import pymupdf
 MARGIN_BAND = 0.09
 
 PAGE_NUMBER = re.compile(
-    r"^(?:page\s*)?(?:[ivxlc]+|\d+(?:\s*[-–.]\s*\d+)?)(?:\s*(?:of|/)\s*\d+)?$",
+    r"^(?:page\s*)?(?:[ivxlc]+|\d+(?:\s*[-\u2013.]\s*\d+)?)(?:\s*(?:of|/)\s*\d+)?$",
     re.IGNORECASE,
 )
 
@@ -75,7 +75,7 @@ class PageInfo:
 
 
 def _clean(text: str) -> str:
-    text = text.replace("­", "").replace("ﬁ", "fi").replace("ﬂ", "fl")
+    text = text.replace("\u00ad", "").replace("\ufb01", "fi").replace("\ufb02", "fl")
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -144,22 +144,29 @@ def _read_lines(page: pymupdf.Page, number: int, tables: list[Table]) -> list[Li
 
 def _merge_same_row(lines: list[Line]) -> list[Line]:
     """Join fragments that sit on the same baseline (e.g. a bullet glyph and its text)."""
-    merged: list[Line] = []
-    for ln in sorted(lines, key=lambda l: (round(l.y0), l.x0)):
-        prev = merged[-1] if merged else None
-        if (
-            prev
-            and abs(prev.y0 - ln.y0) < 2.5
-            and abs(prev.y1 - ln.y1) < 2.5
-            and ln.x0 >= prev.x1 - 1
-            and ln.x0 - prev.x1 < 40
-        ):
-            prev.text = f"{prev.text} {ln.text}"
-            prev.x1 = ln.x1
-            prev.bold = prev.bold and ln.bold
-            prev.size = max(prev.size, ln.size)
+    # Group into rows by vertical centre first (a bullet glyph often sits a
+    # point higher than its text), then read each row left to right.
+    rows: list[list[Line]] = []
+    for ln in sorted(lines, key=lambda l: (l.y0 + l.y1) / 2):
+        centre = (ln.y0 + ln.y1) / 2
+        if rows and abs(centre - (rows[-1][0].y0 + rows[-1][0].y1) / 2) < 3:
+            rows[-1].append(ln)
         else:
-            merged.append(ln)
+            rows.append([ln])
+    merged: list[Line] = []
+    for row in rows:
+        start = len(merged)
+        for ln in sorted(row, key=lambda l: l.x0):
+            prev = merged[-1] if len(merged) > start else None
+            if prev and ln.x0 >= prev.x1 - 1 and ln.x0 - prev.x1 < 40:
+                prev.text = f"{prev.text} {ln.text}"
+                prev.x1 = ln.x1
+                prev.y0 = min(prev.y0, ln.y0)
+                prev.y1 = max(prev.y1, ln.y1)
+                prev.bold = prev.bold and ln.bold
+                prev.size = max(prev.size, ln.size)
+            else:
+                merged.append(ln)
     return merged
 
 
