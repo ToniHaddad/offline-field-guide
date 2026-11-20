@@ -5,7 +5,9 @@ from __future__ import annotations
 import argparse
 import functools
 import http.server
+import socket
 import sys
+import threading
 from pathlib import Path
 
 DEFAULT_PORT = 8101
@@ -56,13 +58,30 @@ def cmd_serve(args: argparse.Namespace) -> int:
         print(f"{root} has no index.html; run `fieldguide build` first", file=sys.stderr)
         return 1
     handler = functools.partial(_Handler, directory=str(root))
-    with http.server.ThreadingHTTPServer((args.host, args.port), handler) as httpd:
-        print(f"Serving {root} at http://{'localhost' if args.host in ('127.0.0.1', '0.0.0.0') else args.host}:{args.port}/")
+    servers = [http.server.ThreadingHTTPServer((args.host, args.port), handler)]
+    if args.host == "127.0.0.1" and socket.has_ipv6:
+        # Browsers try "localhost" as ::1 first. Without an IPv6 listener every
+        # request waits for that attempt to fail, which makes caching slow.
         try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
+            servers.append(_IPv6Server(("::1", args.port), handler))
+        except OSError:
             pass
+    for extra in servers[1:]:
+        threading.Thread(target=extra.serve_forever, daemon=True).start()
+    host = "localhost" if args.host in ("127.0.0.1", "0.0.0.0") else args.host
+    print(f"Serving {root} at http://{host}:{args.port}/", flush=True)
+    try:
+        servers[0].serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        for s in servers:
+            s.server_close()
     return 0
+
+
+class _IPv6Server(http.server.ThreadingHTTPServer):
+    address_family = socket.AF_INET6
 
 
 def main(argv: list[str] | None = None) -> int:

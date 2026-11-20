@@ -16,7 +16,7 @@
   ).split(" "));
 
   function normalize(s) {
-    return String(s).normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    return String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 
   function stem(t) {
@@ -29,7 +29,9 @@
   }
 
   function tokenize(s) {
-    var words = normalize(s).match(/[a-z0-9]+/g) || [];
+    // Dotted acronyms become one word: "P.A.S.S." -> "pass".
+    var text = normalize(s).replace(/\b(?:[a-z]\.){2,}/g, function (m) { return m.replace(/\./g, ""); });
+    var words = text.match(/[a-z0-9]+/g) || [];
     var out = [];
     for (var i = 0; i < words.length; i++) {
       var w = words[i];
@@ -158,7 +160,7 @@
   }
 
   function highlight(text, termSet) {
-    var parts = String(text).split(/([A-Za-z0-9À-ɏ]+)/);
+    var parts = String(text).split(/([A-Za-z0-9\u00c0-\u024f]+)/);
     var html = "";
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i];
