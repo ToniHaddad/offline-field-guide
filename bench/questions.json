@@ -1,0 +1,32 @@
+{
+  "manual": "manuals/cert-basic-training-participant-manual.pdf",
+  "note": "Each query is what a field officer might type on a phone, misspellings kept on purpose. 'pages' are PDF page numbers (1-based) that hold the answer, found by reading the manual. 'answer' is a short note of what the officer needs to see.",
+  "questions": [
+    {"query": "shut off gas", "pages": [177], "answer": "Non-sparking wrench, turn the valve a quarter turn clockwise"},
+    {"query": "how many drops bleach gallon", "pages": [27, 135], "answer": "Bleach ratio table: 8 drops per gallon"},
+    {"query": "tourniqet", "pages": [102, 103], "answer": "Six steps to apply a tourniquet"},
+    {"query": "signs of shock", "pages": [103], "answer": "Rapid shallow breathing, capillary refill over 2 s, failure to follow simple commands"},
+    {"query": "hypothermia symtoms", "pages": [114], "answer": "Body temperature of 95F or below, uncontrollable shivering"},
+    {"query": "search marking door X", "pages": [206], "answer": "Single slash on entry, second slash on exit, what goes in each quadrant"},
+    {"query": "extinguisher pass", "pages": [172], "answer": "Pull, Aim, Squeeze, Sweep"},
+    {"query": "heat stroke treatment", "pages": [115, 116], "answer": "Move to a cool place, cool slowly, water half a glass every 15 minutes"},
+    {"query": "recovery position", "pages": [105], "answer": "How to place an unconscious patient on their side"},
+    {"query": "decontamination chemicals skin", "pages": [239], "answer": "Leave the area, remove clothing, wash with soap and water"},
+    {"query": "active shooter hide", "pages": [233, 234], "answer": "Evacuate, hide out, take action as a last resort"},
+    {"query": "enter building heavy damage", "pages": [198], "answer": "CERT volunteers never enter a heavily damaged building"},
+    {"query": "classes of fire", "pages": [164], "answer": "Class A, B, C, D, K fuels"},
+    {"query": "water per person per day", "pages": [26], "answer": "At least 1 gallon per person per day, 3-day supply"},
+    {"query": "cribbing steps", "pages": [211, 212], "answer": "13-step leveraging and cribbing procedure"},
+    {"query": "jaw thrust", "pages": [105, 106], "answer": "Opening the airway without moving the neck"},
+    {"query": "frostbit", "pages": [114, 115], "answer": "Signs of frostbite and how to rewarm"},
+    {"query": "carbon monoxde", "pages": [176], "answer": "Colorless, odorless gas; detectors; symptoms"},
+    {"query": "blanket carry", "pages": [216], "answer": "Four to six rescuers, steps to roll and lift"},
+    {"query": "splint broken leg", "pages": [110, 111, 112, 113], "answer": "How to immobilize a fracture with a splint"},
+    {"query": "open airway", "pages": [104], "answer": "Positioning to keep the airway open"},
+    {"query": "stress reaction freeze flight", "pages": [144], "answer": "The five Fs: freeze, flight, fight, fright, faint"},
+    {"query": "shelter in place", "pages": [241, 242], "answer": "Go inside, close windows, turn off ventilation"},
+    {"query": "burn first aid", "pages": [107, 108], "answer": "Burn classifications and how to treat heat burns"},
+    {"query": "electrical emergency", "pages": [175, 176], "answer": "Find the main breaker or fuse box and switch off"},
+    {"query": "bleeding pressure", "pages": [101, 102], "answer": "Apply direct pressure over the wound"}
+  ]
+}
