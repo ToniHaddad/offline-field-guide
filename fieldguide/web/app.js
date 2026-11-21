@@ -96,8 +96,12 @@
           return "<li" + sub + '><a href="#s=' + encodeURIComponent(s.id) + '"><span>' + esc(s.display) + "</span><span>" + pageLabel(s.pages) + "</span></a></li>";
         }).join("") + "</ol></details>";
     }).join("") + "</div>";
-    main.innerHTML = '<p class="meta">' + guide.sections.length + " sections from " + guide.pageCount +
-      " pages. Type a few words, a typo is fine.</p>" + html;
+    var note = guide.note ? '<p class="note-banner">' + esc(guide.note) + "</p>" : "";
+    var related = (guide.related || []).map(function (r) {
+      return '<a class="related" href="' + esc(r.url) + '"><span>Switch guide</span><strong>' + esc(r.title) + "</strong></a>";
+    }).join("");
+    main.innerHTML = note + '<p class="meta">' + guide.sections.length + " sections from " + guide.pageCount +
+      " pages. Type a few words, a typo is fine.</p>" + html + related;
   }
 
   function renderResults(q) {
@@ -201,7 +205,8 @@
   function checkSaved() {
     if (!("caches" in window)) return Promise.resolve(false);
     return caches.keys().then(function (keys) {
-      var k = keys.filter(function (x) { return x.indexOf("fieldguide-") === 0; });
+      var prefix = "fieldguide-" + new URL("./", location.href).pathname + "-";
+      var k = keys.filter(function (x) { return x.indexOf(prefix) === 0; });
       if (!k.length) return false;
       return caches.open(k[k.length - 1]).then(function (c) { return c.match("data/index.json"); }).then(Boolean);
     }).catch(function () { return false; });

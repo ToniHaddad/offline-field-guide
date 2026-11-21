@@ -17,11 +17,18 @@ def _kb(n: int) -> str:
     return f"{n / 1024:,.0f} KB" if n < 1024 * 1024 else f"{n / 1024 / 1024:,.2f} MB"
 
 
+def _pair(text: str) -> tuple[str, str]:
+    title, sep, url = text.rpartition("=")
+    if not sep or not title:
+        raise SystemExit(f"--related expects TITLE=URL, got {text!r}")
+    return title, url
+
+
 def cmd_build(args: argparse.Namespace) -> int:
     from .site import build_site
 
     stats = build_site(Path(args.pdf), Path(args.out), page_images=args.page_images, title=args.title,
-                       source_url=args.source_url)
+                       source_url=args.source_url, related=[_pair(r) for r in args.related], note=args.note)
     print(f"Read {stats.pages} pages from {Path(args.pdf).name}")
     print(f"Sections:        {stats.sections}")
     print(f"Index terms:     {stats.terms:,}")
@@ -93,6 +100,9 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--page-images", action="store_true", help="include a low-resolution image of every page")
     b.add_argument("--title", help="guide title (default: the PDF's own title)")
     b.add_argument("--source-url", help="where the original PDF can be downloaded")
+    b.add_argument("--related", action="append", default=[], metavar="TITLE=URL",
+                   help="link to another guide, shown on the home screen (repeatable)")
+    b.add_argument("--note", help="one line shown under the title on the home screen")
     b.set_defaults(func=cmd_build)
     s = sub.add_parser("serve", help="serve the built site")
     s.add_argument("dir", nargs="?", default="site")

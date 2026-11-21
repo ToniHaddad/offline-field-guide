@@ -53,7 +53,8 @@ def _render_icons(out: Path, svg: str) -> None:
 
 
 def build_site(pdf: Path, out: Path, page_images: bool = False, title: str | None = None,
-               source_url: str | None = None) -> BuildStats:
+               source_url: str | None = None, related: list[tuple[str, str]] | None = None,
+               note: str | None = None) -> BuildStats:
     pdf = Path(pdf)
     out = Path(out)
     if out.exists():
@@ -76,6 +77,8 @@ def build_site(pdf: Path, out: Path, page_images: bool = False, title: str | Non
     meta = {
         "title": title,
         "source": source_url or pdf.name,
+        "related": [{"title": t, "url": u} for t, u in (related or [])],
+        "note": note or "",
         "pageCount": len(pages),
         "pageImages": bool(images),
         "sections": [s.to_json() for s in sections],

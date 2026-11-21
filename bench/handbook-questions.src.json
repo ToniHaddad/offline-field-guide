@@ -1,0 +1,29 @@
+{
+  "manual": "manuals/warehouse-keeper-handbook.pdf",
+  "note": "Written by the same person who wrote the handbook, before running any search on it. Each query is typed the way a keeper might on a phone, misspellings kept. 'answer' is a phrase from the handbook that answers it; bench/resolve_pages.py finds the PDF page(s) holding each phrase and writes handbook-questions.json.",
+  "questions": [
+    {"query": "damged box", "answer": ["Move the damaged stock to the quarantine area"]},
+    {"query": "expired cans", "answer": ["Expired cans, expired medicines and expired baby food are never distributed"]},
+    {"query": "who approves write off", "answer": ["A damage report becomes a write-off only when an operations manager approves it"]},
+    {"query": "12 boxes 6 pieces", "answer": ["12 boxes + 6 pieces of canned cheese at 24 pieces per box"]},
+    {"query": "fefo", "answer": ["FEFO means the batch with the nearest expiry date leaves first"]},
+    {"query": "donation no value", "answer": ["The estimated value is optional"]},
+    {"query": "waybill to partner", "answer": ["A partner organization signs for the stock at delivery"]},
+    {"query": "transfer between projects", "answer": ["moving stock from one project to another inside the same warehouse"]},
+    {"query": "count diffrence", "answer": ["Handling count differences"]},
+    {"query": "low stock report", "answer": ["The low-stock report lists every item below its minimum"]},
+    {"query": "purchase order rejected", "answer": ["Common rejection reasons"]},
+    {"query": "no internet", "answer": ["To keep working when there is no connection"]},
+    {"query": "balance negative", "answer": ["If the system refuses a line because the balance would go negative"]},
+    {"query": "recieve without po", "answer": ["No purchase order in the system"]},
+    {"query": "less pieces than order", "answer": ["Fewer pieces than the purchase order"]},
+    {"query": "canned cheese pieces per box", "answer": ["canned cheese FOO-CHE-002 has 24 pieces per box"]},
+    {"query": "unlock warehouse", "answer": ["To bring a new warehouse into the system"]},
+    {"query": "stock card", "answer": ["A stock card is the full movement history of one item"]},
+    {"query": "short expiry donation", "answer": ["Food with less than three months before expiry"]},
+    {"query": "shelter urgent dispatch", "answer": ["To prepare an urgent dispatch requested by the operations room"]},
+    {"query": "réception marchandise", "answer": ["Toute marchandise entre dans l'entrepôt avec un bon de réception"]},
+    {"query": "rapport avarie", "answer": ["rédigez un rapport d'avarie (DMG)"]},
+    {"query": "sans connexion", "answer": ["Si la connexion est coupée"]}
+  ]
+}

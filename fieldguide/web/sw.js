@@ -4,8 +4,12 @@
 "use strict";
 
 var VERSION = "__VERSION__";
-var CACHE = "fieldguide-" + VERSION;
 var PRECACHE = __PRECACHE__;
+var SCOPE_PATH = new URL("./", self.location).pathname;
+// One cache per guide (scope), so two guides on one site never delete each other's files.
+var PREFIX = "fieldguide-" + SCOPE_PATH + "-";
+var CACHE = PREFIX + VERSION;
+var OWN = new Set(PRECACHE.map(function (u) { return new URL(u, self.location).pathname; }));
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
@@ -20,7 +24,7 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(keys.map(function (k) {
-        if (k.indexOf("fieldguide-") === 0 && k !== CACHE) return caches.delete(k);
+        if (k.indexOf(PREFIX) === 0 && k !== CACHE) return caches.delete(k);
       }));
     }).then(function () { return self.clients.claim(); })
   );
@@ -31,9 +35,14 @@ self.addEventListener("fetch", function (event) {
   if (req.method !== "GET") return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  var path = url.pathname;
+  if (path === SCOPE_PATH + "index.html") path = SCOPE_PATH;
+  // Only answer for this guide's own files. Another guide built into a
+  // sub-folder (for example cert/) has its own service worker and cache.
+  if (!OWN.has(path)) return;
   event.respondWith(
     caches.open(CACHE).then(function (cache) {
-      var key = req.mode === "navigate" ? "./" : req;
+      var key = path === SCOPE_PATH ? "./" : req;
       return cache.match(key, { ignoreSearch: true }).then(function (hit) {
         return hit || fetch(req);
       });

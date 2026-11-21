@@ -23,10 +23,14 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install .
-      - name: Build the guide with page images
-        run: >
-          fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site --page-images
-          --source-url https://www.ready.gov/sites/default/files/2019.CERT_.Basic_.PM_FINAL_508c.pdf
+      - name: Build the handbook (site root) and the CERT manual (cert/), with page images
+        run: |
+          fieldguide build manuals/warehouse-keeper-handbook.pdf --out site --page-images \
+            --note "Sample handbook written for this demo; not an official document of any organization." \
+            --related "FEMA CERT Basic Training manual (268 pages)=cert/"
+          fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site/cert --page-images \
+            --source-url https://www.ready.gov/sites/default/files/2019.CERT_.Basic_.PM_FINAL_508c.pdf \
+            --related "Warehouse Keeper Handbook (sample)=../"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

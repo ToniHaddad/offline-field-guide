@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /*
  * Retrieval benchmark. Runs the search.js shipped in the built site (the
- * exact code the phone runs) against bench/questions.json and prints top-1
+ * exact code the phone runs) against a question set (bench/*-questions.json) and prints top-1
  * and top-3 accuracy, download and index sizes, and search time.
  *
  * A result counts as correct when the section it opens includes one of the
  * pages that hold the answer, and the section is at most MAX_SPAN pages long
  * (so a 40-page catch-all section cannot score by covering everything).
  *
- * Usage: node bench/run_bench.js [site-dir] [questions.json]
+ * Usage: node bench/run_bench.js [site-dir] [questions.json]  (default: the handbook questions)
  */
 "use strict";
 const fs = require("fs");
@@ -19,7 +19,7 @@ const MAX_SPAN = 6;
 const RUNS = 30;
 
 const site = path.resolve(process.argv[2] || "site");
-const qfile = path.resolve(process.argv[3] || path.join(__dirname, "questions.json"));
+const qfile = path.resolve(process.argv[3] || path.join(__dirname, "handbook-questions.json"));
 const FS = require(path.join(site, "search.js"));
 const read = (f) => fs.readFileSync(path.join(site, f));
 const index = new FS.Index(JSON.parse(read("data/index.json")));
@@ -29,7 +29,8 @@ const questions = JSON.parse(fs.readFileSync(qfile, "utf8")).questions;
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) return walk(p);
+    // A sub-folder holding another guide (e.g. cert/) is a separate download.
+    if (e.isDirectory()) return fs.existsSync(path.join(p, ".fieldguide-site")) ? [] : walk(p);
     return e.name.startsWith(".") ? [] : [p];
   });
 }

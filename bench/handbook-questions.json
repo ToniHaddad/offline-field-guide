@@ -1,0 +1,167 @@
+{
+ "manual": "manuals/warehouse-keeper-handbook.pdf",
+ "note": "Written by the same person who wrote the handbook, before running any search on it. Each query is typed the way a keeper might on a phone, misspellings kept. 'answer' is a phrase from the handbook that answers it; bench/resolve_pages.py finds the PDF page(s) holding each phrase and writes handbook-questions.json.",
+ "questions": [
+  {
+   "query": "damged box",
+   "pages": [
+    18
+   ],
+   "answer": "Move the damaged stock to the quarantine area"
+  },
+  {
+   "query": "expired cans",
+   "pages": [
+    21
+   ],
+   "answer": "Expired cans, expired medicines and expired baby food are never distributed"
+  },
+  {
+   "query": "who approves write off",
+   "pages": [
+    18
+   ],
+   "answer": "A damage report becomes a write-off only when an operations manager approves it"
+  },
+  {
+   "query": "12 boxes 6 pieces",
+   "pages": [
+    7
+   ],
+   "answer": "12 boxes + 6 pieces of canned cheese at 24 pieces per box"
+  },
+  {
+   "query": "fefo",
+   "pages": [
+    14
+   ],
+   "answer": "FEFO means the batch with the nearest expiry date leaves first"
+  },
+  {
+   "query": "donation no value",
+   "pages": [
+    12
+   ],
+   "answer": "The estimated value is optional"
+  },
+  {
+   "query": "waybill to partner",
+   "pages": [
+    16
+   ],
+   "answer": "A partner organization signs for the stock at delivery"
+  },
+  {
+   "query": "transfer between projects",
+   "pages": [
+    17
+   ],
+   "answer": "moving stock from one project to another inside the same warehouse"
+  },
+  {
+   "query": "count diffrence",
+   "pages": [
+    20
+   ],
+   "answer": "Handling count differences"
+  },
+  {
+   "query": "low stock report",
+   "pages": [
+    21
+   ],
+   "answer": "The low-stock report lists every item below its minimum"
+  },
+  {
+   "query": "purchase order rejected",
+   "pages": [
+    22
+   ],
+   "answer": "Common rejection reasons"
+  },
+  {
+   "query": "no internet",
+   "pages": [
+    23
+   ],
+   "answer": "To keep working when there is no connection"
+  },
+  {
+   "query": "balance negative",
+   "pages": [
+    15
+   ],
+   "answer": "If the system refuses a line because the balance would go negative"
+  },
+  {
+   "query": "recieve without po",
+   "pages": [
+    11
+   ],
+   "answer": "No purchase order in the system"
+  },
+  {
+   "query": "less pieces than order",
+   "pages": [
+    11
+   ],
+   "answer": "Fewer pieces than the purchase order"
+  },
+  {
+   "query": "canned cheese pieces per box",
+   "pages": [
+    7
+   ],
+   "answer": "canned cheese FOO-CHE-002 has 24 pieces per box"
+  },
+  {
+   "query": "unlock warehouse",
+   "pages": [
+    5
+   ],
+   "answer": "To bring a new warehouse into the system"
+  },
+  {
+   "query": "stock card",
+   "pages": [
+    24
+   ],
+   "answer": "A stock card is the full movement history of one item"
+  },
+  {
+   "query": "short expiry donation",
+   "pages": [
+    12
+   ],
+   "answer": "Food with less than three months before expiry"
+  },
+  {
+   "query": "shelter urgent dispatch",
+   "pages": [
+    25
+   ],
+   "answer": "To prepare an urgent dispatch requested by the operations room"
+  },
+  {
+   "query": "réception marchandise",
+   "pages": [
+    29
+   ],
+   "answer": "Toute marchandise entre dans l'entrepôt avec un bon de réception"
+  },
+  {
+   "query": "rapport avarie",
+   "pages": [
+    29
+   ],
+   "answer": "rédigez un rapport d'avarie (DMG)"
+  },
+  {
+   "query": "sans connexion",
+   "pages": [
+    29
+   ],
+   "answer": "Si la connexion est coupée"
+  }
+ ]
+}
