@@ -1,49 +1,42 @@
-$ python handbook/make_handbook.py
-Wrote warehouse-keeper-handbook.pdf: 42 pages
-Procedures running over a page break: 1
-  'The Five Rules to Remember' step 5: page 3 -> 4
-Tables starting at the top of a page: 3
-Tables continued on the next page: 4
-
 $ fieldguide build ... (Try it, both guides)
 Read 42 pages from warehouse-keeper-handbook.pdf
 Sections:        64
-Index terms:     1,021
+Index terms:     994
 sections.json:   58 KB
-index.json:      27 KB
-Total download:  133 KB in 10 files
+index.json:      29 KB
+Total download:  138 KB in 10 files
 Wrote site
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
-Index terms:     3,612
+Index terms:     3,465
 sections.json:   412 KB
-index.json:      177 KB
-Total download:  638 KB in 10 files
+index.json:      189 KB
+Total download:  651 KB in 10 files
 Wrote site/cert
 
 $ fieldguide build manuals/warehouse-keeper-handbook.pdf --out site --page-images --note ... --related ...
 Read 42 pages from warehouse-keeper-handbook.pdf
 Sections:        64
-Index terms:     1,021
+Index terms:     994
 sections.json:   58 KB
-index.json:      27 KB
+index.json:      29 KB
 Page images:     933 KB
-Total download:  1.04 MB in 52 files
+Total download:  1.05 MB in 52 files
 Wrote site
 
 $ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site/cert --page-images --source-url ... --related ...
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
-Index terms:     3,612
+Index terms:     3,465
 sections.json:   412 KB
-index.json:      177 KB
+index.json:      189 KB
 Page images:     6.53 MB
-Total download:  7.16 MB in 278 files
+Total download:  7.17 MB in 278 files
 Wrote site/cert
 
-$ node bench/run_bench.js site bench/handbook-questions.json
-top3  damged box                 want p.18       got: Terms Used in This Handbook (p. 33)
-ok    expired cans               want p.21       got: Weekly Expiry Check (p. 21)
+$ node bench/run_bench.js site bench/handbook-questions.json   # original 23, tuned on
+ok    damged box                 want p.18       got: Recording Damaged Stock (p. 18)
+top3  expired cans               want p.21       got: First Expired, First Out (p. 14)
 ok    who approves write off     want p.18       got: Write-Off Approval (p. 18)
 ok    12 boxes 6 pieces          want p.7        got: Counting in Pieces (p. 7)
 ok    fefo                       want p.14       got: First Expired, First Out (p. 14)
@@ -56,26 +49,26 @@ ok    purchase order rejected    want p.22       got: How Purchase Orders Reach 
 ok    no internet                want p.23       got: Working on Paper (p. 23)
 MISS  balance negative           want p.15       got: If the System Refuses a Paper Document (p. 23)
 MISS  recieve without po         want p.11       got: If a Delivery Arrives Without an Accepted Purchase Order (p. 22)
-MISS  less pieces than order     want p.11       got: Receiving a Donation (p. 12)
+ok    less pieces than order     want p.11       got: Problems at Receipt (p. 10)
 ok    canned cheese pieces per box want p.7        got: Counting in Pieces (p. 7)
-top3  unlock warehouse           want p.5        got: Warehouses and Projects (p. 37)
+ok    unlock warehouse           want p.5        got: Unlocking a Warehouse (p. 5)
 ok    stock card                 want p.24       got: Reading a Stock Card (p. 24)
-top3  short expiry donation      want p.12       got: Paper goods received note (p. 39)
+ok    short expiry donation      want p.12       got: Receiving a Donation (p. 12)
 ok    shelter urgent dispatch    want p.25       got: Urgent Dispatch to a Shelter (p. 25)
 ok    réception marchandise      want p.29       got: Réception de Marchandises (p. 29)
 ok    rapport avarie             want p.29       got: Avarie et Péremption (p. 29)
 ok    sans connexion             want p.29       got: Sans Connexion (p. 29)
 
 Questions:            23
-Top-1 accuracy:       17/23 (74%)
-Top-3 accuracy:       20/23 (87%)
+Top-1 accuracy:       20/23 (87%)
+Top-3 accuracy:       21/23 (91%)
 Sections:             64 from 42 pages
-Index size:           27 KB (8 KB gzipped)
-Download, no images:  134 KB in 10 files (50 KB gzipped)
-Download, with images: 1.04 MB in 52 files (page images 933 KB)
-Search time:          median 0.02 ms, p95 0.53 ms (690 runs, Node v24.19.0)
+Index size:           29 KB (9 KB gzipped)
+Download, no images:  139 KB in 10 files (51 KB gzipped)
+Download, with images: 1.05 MB in 52 files (page images 933 KB)
+Search time:          median 0.02 ms, p95 0.48 ms (690 runs, Node v24.19.0)
 
-$ node bench/run_bench.js site/cert bench/cert-questions.json
+$ node bench/run_bench.js site/cert bench/cert-questions.json   # tuned on
 ok    shut off gas               want p.177      got: Natural Gas Shutoff (p. 177)
 ok    how many drops bleach gallon want p.27,135   got: Water Purification (p. 135)
 ok    tourniqet                  want p.102,103  got: Tourniquets (p. 102)
@@ -107,10 +100,45 @@ Questions:            26
 Top-1 accuracy:       25/26 (96%)
 Top-3 accuracy:       26/26 (100%)
 Sections:             342 from 268 pages
-Index size:           177 KB (51 KB gzipped)
-Download, no images:  643 KB in 10 files (189 KB gzipped)
-Download, with images: 7.16 MB in 278 files (page images 6.53 MB)
-Search time:          median 0.04 ms, p95 2.15 ms (780 runs, Node v24.19.0)
+Index size:           189 KB (53 KB gzipped)
+Download, no images:  656 KB in 10 files (192 KB gzipped)
+Download, with images: 7.17 MB in 278 files (page images 6.53 MB)
+Search time:          median 0.04 ms, p95 1.56 ms (780 runs, Node v24.19.0)
+
+$ node bench/run_bench.js site bench/handbook-unseen.json   # unseen 25, measured once (first run, on the dev build, before the final rebuild)
+ok    unlock new warhouse        want p.5        got: Unlocking a Warehouse (p. 5)
+ok    opened box on shelf        want p.8        got: Exceptions for Boxes and Pieces (p. 8)
+top3  food expiry less than 6 months want p.11       got: Receiving a Donation (p. 12)
+ok    damaged boxes on arival    want p.11       got: Problems at Receipt (p. 10)
+ok    donated medicins accept    want p.12       got: Receiving a Donation (p. 12)
+ok    pallets distance from wall want p.14       got: Good Storage Practice (p. 14)
+ok    how long keep signed waybill want p.16       got: Dispatch Exceptions (p. 15)
+ok    fefo batch is damaged      want p.16       got: Dispatch Exceptions (p. 15)
+ok    transfer project same warehouse want p.17       got: When a Transfer Is Needed (p. 17)
+ok    when destroy damagd stock  want p.18       got: Write-Off Approval (p. 18)
+ok    large count diference      want p.20       got: Doing a Count (p. 20)
+ok    orange expiry report meaning want p.21       got: Weekly Expiry Check (p. 21)
+ok    low stock report second week want p.21       got: Low-Stock Check (p. 21)
+ok    po rejected whole number pieces want p.22       got: How Purchase Orders Reach the Stock System (p. 22)
+ok    internet back enter paper forms want p.23       got: Working on Paper (p. 23)
+ok    fix wrong expiry on rcv    want p.24       got: Correcting a Mistake (p. 24)
+ok    deliver direct from truck families want p.26       got: When a Delivery Is Cancelled (p. 25)
+ok    max weight lift alone      want p.27       got: Lifting and Stacking (p. 27)
+ok    when is month closed       want p.28       got: What to Finish Before the End of the Month (p. 28)
+ok    conserves perimees         want p.29       got: Avarie et Péremption (p. 29)
+ok    don en nature valeur       want p.29       got: Réception de Marchandises (p. 29)
+ok    sans connexion ordre saisie want p.29       got: Sans Connexion (p. 29)
+MISS  soap bar pieces per box    want p.35       got: Counting in Pieces (p. 7)
+ok    wh-30 chtaura status       want p.38       got: Warehouses and Projects (p. 37)
+ok    paper form no printer      want p.39       got: Appendix C: Paper Forms (p. 39)
+
+Questions:            25
+Top-1 accuracy:       23/25 (92%)
+Top-3 accuracy:       24/25 (96%)
+Sections:             64 from 42 pages
+Index size:           29 KB (9 KB gzipped)
+Download, no images:  138 KB in 10 files (50 KB gzipped)
+Search time:          median 0.03 ms, p95 0.51 ms (750 runs, Node v24.19.0)
 
 $ python scripts/offline_check.py
 PASS  /: service worker active, caches hold [52] files
@@ -118,9 +146,9 @@ PASS  /cert/: service worker active, caches hold [52, 278] files
 PASS  / opens with the network off: 'Warehouse Keeper Handbook (sample)'
 PASS  status shows offline ('Offline · saved copy')
 PASS  a request outside the cache fails (really offline)
-PASS  search 'damged box' offline: 20 results, top: 'Terms Used in This Handbook'
-PASS  opened section 'Terms Used in This Handbook' with 6 highlighted terms
-PASS  shows the source page ('Page 33 of the original')
+PASS  search 'damged box' offline: 20 results, top: 'Recording Damaged Stock'
+PASS  opened section 'Recording Damaged Stock' with 10 highlighted terms
+PASS  shows the source page ('Page 18 of the original')
 PASS  /cert/ opens with the network off: 'CERT Basic Training Participant Manual'
 PASS  status shows offline ('Offline · saved copy')
 PASS  a request outside the cache fails (really offline)

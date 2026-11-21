@@ -6,13 +6,13 @@ Give it a long PDF manual and it builds a searchable guide that keeps working on
 
 <table>
 <tr>
-<td><img src="docs/results.png" width="250" alt="Search results for expired cans"></td>
+<td><img src="docs/results.png" width="250" alt="Search results for a misspelled query"></td>
 <td><img src="docs/section.png" width="250" alt="An opened procedure with highlighted terms and its source page"></td>
 <td><img src="docs/offline-search.png" width="250" alt="A misspelled search working with the network off"></td>
 </tr>
 <tr>
-<td>"expired cans"</td>
-<td>"damged box": the procedure, terms highlighted, source page shown</td>
+<td>"damged box": the procedure comes first</td>
+<td>The procedure opened, terms highlighted, source page shown</td>
 <td>"who aproves write off" with the network cut</td>
 </tr>
 </table>
@@ -66,17 +66,17 @@ Real output (the CERT build takes about 1.5 minutes, mostly table detection):
 ```
 Read 42 pages from warehouse-keeper-handbook.pdf
 Sections:        64
-Index terms:     1,021
+Index terms:     994
 sections.json:   58 KB
-index.json:      27 KB
-Total download:  133 KB in 10 files
+index.json:      29 KB
+Total download:  138 KB in 10 files
 Wrote site
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
-Index terms:     3,612
+Index terms:     3,465
 sections.json:   412 KB
-index.json:      177 KB
-Total download:  638 KB in 10 files
+index.json:      189 KB
+Total download:  651 KB in 10 files
 Wrote site/cert
 Serving site at http://localhost:8101/
 ```
@@ -110,33 +110,50 @@ site/cert/    a second guide, with its own service worker and cache
 |---|---|
 | Page breaks | Headers and footers are removed first, so the last line of page N meets the first line of page N+1. A step or paragraph that has not finished its sentence continues; step 6 after step 5 extends the same procedure. |
 | Tables | Found with PyMuPDF's table finder; their cells are kept out of the text flow, so a bold header row is never mistaken for a heading. A table at the top of the next page stays with its section, and a table split over pages is merged with its repeated header row dropped. |
-| Search | `search.js`, about 180 lines of plain JavaScript, no dependencies. BM25 over the sections; each query word also matches words that start with it and, when nothing matches, words one typo away (two for long words). Accents are ignored, so "reception" finds "réception". |
+| Search | `search.js`, about 220 lines of plain JavaScript, no dependencies. BM25 over the sections; each query word also matches words that start with it and, when nothing matches, words one typo away (two for long words). Accents are ignored, so "reception" finds "réception". |
+| Ranking rules | A query word found in a section's own heading adds a bonus. Reference sections (glossary, appendices, lists, catalogues, forms, checklists, quick-reference cards, and sections that are almost all table) get 0.6 of their score, so the section that explains a procedure comes first when both match. Five groups of everyday equivalents (fewer/less, purchase order/PO, receive/receipt/reception, broken/damaged, amount/quantity) and plural/verb forms ("boxes" = "box", "damaged" = "damage"). |
 | Offline | Each guide's service worker caches every file of that guide on first load and serves from the cache afterwards. Caches are named per guide, so the two guides on one site never delete each other's files. |
 
 ## Results
 
 `node bench/run_bench.js <site> <questions>` runs the shipped `search.js`
 under Node. A hit means the opened section contains a page that holds the
-answer and is at most 6 pages long.
+answer and is at most 6 pages long. Three question sets:
 
-| | Handbook (new) | FEMA CERT manual |
+| Set | Who wrote it | Used for tuning? |
 |---|---|---|
-| Questions | 23 (20 English, 3 French) | 26 |
-| Top-1 accuracy | **17/23 (74%)** | 25/26 (96%), unchanged |
-| Top-3 accuracy | **20/23 (87%)** | 26/26 (100%), unchanged |
-| Index size | 27 KB (8 KB gzipped) | 177 KB (51 KB gzipped) |
-| Download, no page images | 134 KB, 10 files | 643 KB, 10 files |
-| Download, with page images | 1.04 MB, 52 files | 7.16 MB, 278 files |
-| Search time, median / p95 | 0.02 / 0.53 ms | 0.04 / 2.15 ms |
+| Handbook, original 23 (20 English, 3 French) | Me, the author of the handbook, before running any search on it | **Yes**, the ranking rules were tuned on it |
+| FEMA CERT, 26 | Me, after reading the manual (first version) | **Yes**, as a check that nothing got worse |
+| Handbook, unseen 25 (incl. 5 misspelled, 3 French) | A different model (Google Gemini) from the handbook's PDF text only, without seeing the other sets or the code | **No**, committed before any ranking change and measured once at the end |
 
-How the handbook questions were made: I wrote both the handbook and its
-questions, so this is not an independent test. I wrote the 23 questions the
-way a keeper might type them (three misspelled, three in French) after writing
-the handbook and **before running any search on it**, each with a phrase from
-the handbook that answers it; `bench/resolve_pages.py` turns the phrases into
-page numbers. I did not change any rule or label after seeing the results. The
-CERT questions and engine are the same as in the first version, so its numbers
-did not change.
+Accuracy before and after the ranking round:
+
+| Set | Top-1 before | Top-1 after | Top-3 before | Top-3 after |
+|---|---|---|---|---|
+| Handbook, original 23 (tuned on) | 17/23 (74%) | **20/23 (87%)** | 20/23 (87%) | **21/23 (91%)** |
+| FEMA CERT, 26 (tuned on) | 25/26 (96%) | 25/26 (96%) | 26/26 (100%) | 26/26 (100%) |
+| Handbook, unseen 25 (measured once) | not measured | **23/25 (92%)** | not measured | **24/25 (96%)** |
+
+The unseen set scored higher than the set I tuned on. That should not be read
+as "the tool is better than it looks": that model's questions stay closer to
+the handbook's wording than mine, and I saw its 25 queries when I checked the
+file format (I kept the synonym list to the general pairs named above, and
+measured the set only once, after the code was committed).
+
+Size and speed (final build):
+
+| | Handbook | FEMA CERT manual |
+|---|---|---|
+| Index size | 29 KB (9 KB gzipped) | 189 KB (53 KB gzipped) |
+| Download, no page images | 139 KB, 10 files | 656 KB, 10 files |
+| Download, with page images | 1.05 MB, 52 files | 7.17 MB, 278 files |
+| Search time, median / p95 | 0.02 / 0.48 ms | 0.04 / 1.56 ms |
+
+How the question sets were made: I wrote both the handbook and the original
+23 questions, so that set is not an independent test. Each question in every
+set carries a phrase from the manual that answers it;
+`bench/resolve_pages.py` turns the phrases into page numbers, and a test fails
+if a phrase stops matching the PDF.
 
 Offline proof, `python scripts/offline_check.py` (Playwright, headless
 Chromium, phone viewport): it opens both guides online, cuts the network,
@@ -149,9 +166,9 @@ PASS  /cert/: service worker active, caches hold [52, 278] files
 PASS  / opens with the network off: 'Warehouse Keeper Handbook (sample)'
 PASS  status shows offline ('Offline · saved copy')
 PASS  a request outside the cache fails (really offline)
-PASS  search 'damged box' offline: 20 results, top: 'Terms Used in This Handbook'
-PASS  opened section 'Terms Used in This Handbook' with 6 highlighted terms
-PASS  shows the source page ('Page 33 of the original')
+PASS  search 'damged box' offline: 20 results, top: 'Recording Damaged Stock'
+PASS  opened section 'Recording Damaged Stock' with 10 highlighted terms
+PASS  shows the source page ('Page 18 of the original')
 PASS  /cert/ opens with the network off: 'CERT Basic Training Participant Manual'
 PASS  status shows offline ('Offline · saved copy')
 PASS  a request outside the cache fails (really offline)
@@ -161,7 +178,7 @@ PASS  shows the source page ('Page 177 of the original')
 OFFLINE CHECK PASSED
 ```
 
-Tests: `pytest` runs 37 tests. The handbook tests regenerate the PDF and check
+Tests: `pytest` runs 42 tests. The handbook tests regenerate the PDF and check
 that each procedure the layout put over a page break comes out as one list,
 that the exceptions table at the top of page 11 stays in "Problems at
 Receipt", that the 77-row item table split over pages 34 to 36 is one table with
@@ -171,13 +188,14 @@ PDFs for the same hard cases and run the real `search.js` under Node.
 
 ## Where it fails
 
-- **Glossary and appendices outrank the explanation.** "damged box" opens the
-  glossary first (the procedure is third); "unlock warehouse" opens the
-  warehouse list, where "Unlocked" appears 26 times; "short expiry donation"
-  opens a paper form.
-- **Different words for the same thing.** "less pieces than order" misses the
-  row "Fewer pieces than the purchase order": there is no synonym handling.
-- **Strict labels.** "recieve without po" and "balance negative" are counted
+- **Down-weighting reference sections cuts both ways.** "soap bar pieces per
+  box" (unseen set) misses: the answer is a row of the item catalogue, which is
+  now a reference section, so "Counting in Pieces" wins. The same rule fixed
+  "damged box", which used to open the glossary.
+- **Heading bonus can pick the wrong heading.** "expired cans" now opens
+  "First Expired, First Out" first; the expiry check that answers it is
+  second.
+- **Strict labels.** "recieve without po" and "balance negative" still count
   as misses, but their top results ("If a Delivery Arrives Without an Accepted
   Purchase Order", "If the System Refuses a Paper Document") also answer the
   question. I kept the labels I wrote before running the test.
@@ -196,7 +214,7 @@ PDFs for the same hard cases and run the real `search.js` under Node.
 
 ## What I would add next
 
-- A confidence floor that says "not covered in this manual", and a small synonym list per manual.
+- A confidence floor that says "not covered in this manual", and an optional synonym list per manual.
 - Arabic tokenization and an Arabic version of the handbook.
 - An optional LLM step that answers in one sentence and cites the section; the retrieval here would be its source of truth.
 

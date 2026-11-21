@@ -33,4 +33,5 @@ node bench/run_bench.js site/cert bench/cert-questions.json
 - After editing handbook.txt: regenerate the PDF, then run resolve_pages.py; tests check both.
 - Build the root guide before the cert/ one: `build` deletes its output folder.
 - Each guide must be opened once online before it works offline.
+- Ranking: heading bonus, reference sections x0.6 (index.py), synonyms in search.js. Tune only on bench/handbook-questions.json and cert; handbook-unseen.json is the held-out set.
 - Page numbers shown are PDF page numbers. Arabic text is not indexed.
