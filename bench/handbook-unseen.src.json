@@ -1,0 +1,156 @@
+{
+ "manual": "manuals/warehouse-keeper-handbook.pdf",
+ "note": "Unseen set. Written by a different model (Google Gemini, gemini-4-neon) from the handbook's PDF text only, without access to the first question set or the ranking code, before any ranking change. I checked only the format. Measured once, after all ranking changes; nothing was changed afterwards.",
+ "questions": [
+  {
+   "query": "unlock new warhouse",
+   "answer": [
+    "unlocked only after its opening count has been done and checked"
+   ]
+  },
+  {
+   "query": "opened box on shelf",
+   "answer": [
+    "Count it as loose pieces, never as a full box"
+   ]
+  },
+  {
+   "query": "food expiry less than 6 months",
+   "answer": [
+    "Call the operations manager before unloading; receive only with approval"
+   ]
+  },
+  {
+   "query": "damaged boxes on arival",
+   "answer": [
+    "refuse the damaged stock and note it on the delivery note"
+   ]
+  },
+  {
+   "query": "donated medicins accept",
+   "answer": [
+    "Do not accept; medicines are received only by the medical department"
+   ]
+  },
+  {
+   "query": "pallets distance from wall",
+   "answer": [
+    "Keep stock off the floor on pallets, at least 30 cm from walls"
+   ]
+  },
+  {
+   "query": "how long keep signed waybill",
+   "answer": [
+    "Keep the signed waybill in the file for at least five years"
+   ]
+  },
+  {
+   "query": "fefo batch is damaged",
+   "answer": [
+    "record a damage report, then let the system propose the next batch"
+   ]
+  },
+  {
+   "query": "transfer project same warehouse",
+   "answer": [
+    "relabelled and moved to the positions of the new project"
+   ]
+  },
+  {
+   "query": "when destroy damagd stock",
+   "answer": [
+    "Destroy or dispose of the stock only after approval"
+   ]
+  },
+  {
+   "query": "large count diference",
+   "answer": [
+    "Recount with a second person; then the operations manager investigates before any correction"
+   ]
+  },
+  {
+   "query": "orange expiry report meaning",
+   "answer": [
+    "Dispatch first; ask about a transfer to a centre that can use it"
+   ]
+  },
+  {
+   "query": "low stock report second week",
+   "answer": [
+    "any item that is listed for the second week in a row"
+   ]
+  },
+  {
+   "query": "po rejected whole number pieces",
+   "answer": [
+    "Quantity has decimals or is in boxes"
+   ]
+  },
+  {
+   "query": "internet back enter paper forms",
+   "answer": [
+    "enter the paper documents in the order they happened, oldest first"
+   ]
+  },
+  {
+   "query": "fix wrong expiry on rcv",
+   "answer": [
+    "Reversing line, then a new line with the right date"
+   ]
+  },
+  {
+   "query": "deliver direct from truck families",
+   "answer": [
+    "Not allowed; stock goes to the shelter's centre on a waybill"
+   ]
+  },
+  {
+   "query": "max weight lift alone",
+   "answer": [
+    "ask for help with anything heavier than 25 kg"
+   ]
+  },
+  {
+   "query": "when is month closed",
+   "answer": [
+    "every movement of the month is in the system and the cycle count is submitted"
+   ]
+  },
+  {
+   "query": "conserves perimees",
+   "answer": [
+    "Les conserves périmées ne sont jamais distribuées"
+   ]
+  },
+  {
+   "query": "don en nature valeur",
+   "answer": [
+    "Un don en nature indique le nom du donateur; la valeur estimée est facultative"
+   ]
+  },
+  {
+   "query": "sans connexion ordre saisie",
+   "answer": [
+    "dès le retour de la connexion, du plus ancien au plus récent"
+   ]
+  },
+  {
+   "query": "soap bar pieces per box",
+   "answer": [
+    "HYG-SOA-001 Soap bar, 125 g Hygiene 72"
+   ]
+  },
+  {
+   "query": "wh-30 chtaura status",
+   "answer": [
+    "WH-30 Chtaura Field store EA-2026, WASH-2026 Not yet unlocked"
+   ]
+  },
+  {
+   "query": "paper form no printer",
+   "answer": [
+    "Copy the layout on paper if you have no printer"
+   ]
+  }
+ ]
+}
