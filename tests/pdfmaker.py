@@ -18,7 +18,7 @@ LOREM = (
 
 
 class PdfMaker:
-    def __init__(self, header: str = "Northbridge Relief Field Manual", footer: str = "Page {n}",
+    def __init__(self, header: str = "Warehouse Keeper Handbook (sample)", footer: str = "Page {n}",
                  bottom: float = 730):
         self.doc = pymupdf.open()
         self.header = header

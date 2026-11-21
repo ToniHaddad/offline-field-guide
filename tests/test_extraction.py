@@ -54,7 +54,7 @@ def test_procedure_across_page_break_stays_one_section(tmp_path):
     )
     assert sorted(bleeding.pages) == [1, 2]
     text = all_text(secs)
-    assert "Northbridge Relief Field Manual" not in text
+    assert "Warehouse Keeper Handbook (sample)" not in text
     assert "Page 1" not in text and "Page 2" not in text
     assert by_title(secs, "Shut Off Utilities").pages == {2}
 

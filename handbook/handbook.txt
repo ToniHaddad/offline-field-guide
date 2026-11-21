@@ -1,0 +1,531 @@
+# About This Handbook
+
+## Who This Handbook Is For
+This handbook is for warehouse keepers who receive, store and dispatch relief stock in the Organization's warehouses across Lebanon. It also helps operations managers who approve write-offs and create transfers, and administrators who set up warehouses and accounts.
+
+It is written for the person standing in the warehouse with a phone, a pen and a delivery truck at the door. Each chapter starts with the rule, then gives the steps in order, then lists the exceptions. If you only have a minute, read the numbered steps and the exceptions table.
+
+## How the Stock System Works
+The Organization runs about forty warehouses, from WH-01 to WH-40, and holds around three thousand item codes. Several donor-funded projects keep stock inside the same building. Their quantities must never be merged. Every balance is kept per warehouse, per project, per item and per expiry date.
+
+Every movement of stock is written as one line in the movement ledger: a receipt, a dispatch, a transfer, a damage write-off or a count correction. The ledger is the single source of truth. Lines are only ever added, never edited or deleted. A mistake is corrected by adding a new line that reverses it.
+
+No movement may drive a balance below zero. If the system refuses a dispatch because the balance would become negative, the stock on the shelf and the stock in the system disagree, and you must find out why before you send anything.
+
+## The Five Rules to Remember
+1. Count everything in pieces. Boxes are only a convenience for counting and writing.
+2. Never mix projects. A box received for FA-2026 stays FA-2026 until a transfer moves it.
+3. First expired, first out (FEFO). Always dispatch the batch with the nearest expiry date first.
+4. Every movement needs a document: a goods received note, a waybill, a transfer or a damage report.
+5. If the system and the shelf disagree, stop and report. Do not adjust quantities to make them match.
+
+## Document Numbers
+Each document gets a number from the system when it is saved. Write the number on the paper copy and on the boxes where the procedure says so.
+
+TABLE: Table 1.1: Document numbers
+| Document | Number format | Created by |
+| Goods received note | RCV-2026-00001 | Warehouse keeper |
+| Waybill (dispatch) | DSP-2026-00001 | Warehouse keeper |
+| Transfer | TRF-2026-00001 | Operations manager |
+| Damage report | DMG-2026-00001 | Warehouse keeper |
+
+# Roles and Access
+
+## The Three Roles
+The stock system has three roles. Your role decides which warehouses you see and which actions you can take.
+
+A warehouse keeper works only in the warehouses assigned to them. A keeper receives stock, dispatches stock on a waybill, receives incoming transfers, records damage reports and enters stock counts.
+
+An operations manager sees all active warehouses. The operations manager approves or rejects damage reports, creates transfers between warehouses and projects, and reviews count differences.
+
+An administrator manages accounts, assigns keepers to warehouses and unlocks warehouses when they join the system.
+
+TABLE: Table 2.1: Who can do what
+| Action | Warehouse keeper | Operations manager | Administrator |
+| Receive stock (goods received note) | Own warehouses | Yes | No |
+| Dispatch on a waybill | Own warehouses | Yes | No |
+| Create a transfer | No | Yes | No |
+| Receive a transfer | Own warehouses | Yes | No |
+| Record a damage report | Own warehouses | Yes | No |
+| Approve a write-off | No | Yes | No |
+| Enter a stock count | Own warehouses | Yes | No |
+| Unlock a warehouse | No | No | Yes |
+| Create user accounts | No | No | Yes |
+
+## Unlocking a Warehouse
+Warehouses join the stock system one at a time. Until an administrator unlocks a warehouse, it does not appear in any list and no movement can be recorded for it. A warehouse is unlocked only after its opening count has been done and checked.
+
+To bring a new warehouse into the system:
+1. The operations manager asks the administrator to prepare the warehouse, giving its code, town and the keeper who will run it.
+2. The keeper counts every item on the shelves, by project and by expiry date, and writes the count on the opening count sheet.
+3. The operations manager checks the opening count sheet against the last known records and signs it.
+4. The administrator enters the opening balances as one opening line per item, project and expiry date.
+5. The administrator unlocks the warehouse and assigns the keeper to it.
+6. The keeper logs in, opens the warehouse and checks that three items picked at random show the right balance.
+
+NOTE: Note: Do not record any movement on paper for a warehouse that is not yet unlocked unless the operations manager asks you to. Paper movements made before unlocking must be entered as part of the opening count, not afterwards.
+
+## Changing Your Password and Phone
+Use a password that is at least ten characters long. Do not share your account with a colleague, even for one day. If you change phones, log out on the old phone first. If a phone is lost or stolen, tell the administrator the same day so the account can be locked.
+
+# Item Codes, Boxes and Pieces
+
+## Item Codes
+Every item has a code made of three parts: the family, a short name and a number. For example FOO-RIC-001 is a 5 kg bag of rice in the Food family.
+
+TABLE: Table 3.1: Item families
+| Family | Code start | Examples |
+| Food | FOO- | Rice, lentils, canned cheese, oil, sugar |
+| Hygiene | HYG- | Soap, sanitary pads, diapers, hygiene kits |
+| Medical | MED- | First aid kits, gauze, gloves, oral rehydration salts |
+| Shelter | SHE- | Tarpaulins, mattresses, sealing-off kits |
+| NFI | NFI- | Blankets, jerrycans, kitchen sets, solar lamps |
+
+## Counting in Pieces
+The system counts every item in pieces. A piece is the smallest unit you hand over: one can, one bar of soap, one blanket. Boxes are a convenience. Each item has a pieces-per-box figure, for example canned cheese FOO-CHE-002 has 24 pieces per box.
+
+People often write quantities as boxes plus loose pieces, such as "12 boxes + 6 pieces". The system shows both forms, but it stores only pieces.
+
+To convert boxes and pieces into a total number of pieces:
+1. Find the pieces-per-box figure on the item card in the system or in Appendix A.
+2. Multiply the number of full boxes by the pieces-per-box figure.
+3. Add the loose pieces.
+4. Write the total in pieces on the document, and the boxes plus pieces form next to it in brackets.
+
+Example: 12 boxes + 6 pieces of canned cheese at 24 pieces per box is 12 x 24 + 6 = 294 pieces.
+
+To convert pieces back into boxes, divide the pieces by the pieces-per-box figure. The whole number is the full boxes and the remainder is the loose pieces. 294 pieces of canned cheese is 12 boxes and 6 pieces.
+
+## Exceptions for Boxes and Pieces
+Some items do not fit the simple rule. Check the table below before you count.
+
+TABLE: Table 3.2: Exceptions when counting boxes and pieces
+| Situation | What to do |
+| Box contains a different number of pieces than the item card | Count the pieces in that box, record the real total, and report the difference to the operations manager |
+| Opened box on the shelf | Count it as loose pieces, never as a full box |
+| Mixed box with two items inside | Separate the items and count each item in pieces |
+| Item has no pieces-per-box figure | Count and record in pieces only; ask the administrator to add the figure |
+| Bulk item sold by weight, such as flour in sacks | The piece is the sack; never record kilograms |
+| Kit containing several items, such as a hygiene kit | The kit is one piece; do not count its contents separately |
+
+# Receiving Stock
+
+## The Goods Received Note
+Stock comes into a warehouse under a goods received note, numbered RCV-2026-00001 and onwards. A goods received note records what arrived, for which project, from which purchase order or donor, and with which expiry dates. Nothing goes on a shelf before it is on a goods received note.
+
+There are two kinds of receipt. A receipt from a purchase order is stock the Organization bought. An in-kind donation is stock given by a donor; it is covered in the next chapter.
+
+## Receiving from a Purchase Order
+Before the truck arrives, check in the system that the purchase order exists and is open, and note the project it belongs to.
+
+To receive a delivery against a purchase order:
+1. Check the driver's delivery note and confirm that it names your warehouse and the purchase order number.
+2. Unload the truck into the receiving area, never directly onto the storage shelves.
+3. Count the delivery in boxes and loose pieces, item by item, and convert the count into pieces.
+4. Check every batch for its expiry date and write the date on the count sheet. Keep batches with different expiry dates apart.
+5. Inspect the boxes for damage, wet cartons, broken seals, swelling cans or pests.
+6. Open the purchase order in the system and create a goods received note from it.
+7. Enter the quantity received for each line, in pieces, with its expiry date.
+8. Record any shortage, excess or damage in the remarks of the line concerned.
+9. Save the goods received note. The system gives it a number such as RCV-2026-00137.
+10. Write the RCV number on the driver's delivery note, sign it and ask the driver to sign.
+11. Label each pallet or stack with the RCV number, the project code and the expiry date.
+12. Move the stock from the receiving area to its storage location for that project.
+
+## Problems at Receipt
+Most receipts are simple. When they are not, use the table below and never sign for goods you did not count.
+
+PAGEBREAK
+TABLE: Table 4.1: Exceptions at receipt
+| Problem | What to do |
+| Fewer pieces than the purchase order | Receive only what you counted; write the shortage in the remarks; the purchase order stays open for the rest |
+| More pieces than the purchase order | Receive only the ordered quantity; refuse the excess or keep it apart and call the operations manager |
+| Damaged boxes on arrival | Receive the good stock; refuse the damaged stock and note it on the delivery note; do not open a damage report for stock you refused |
+| Expiry date shorter than six months for food | Call the operations manager before unloading; receive only with approval |
+| No purchase order in the system | Do not receive; keep the truck waiting and call the operations manager |
+| Item code not in the system | Receive under a temporary remark and ask the administrator to create the item the same day |
+| Delivery for another warehouse | Refuse it; the driver must deliver to the warehouse on the delivery note |
+
+NOTE: Note: A goods received note cannot be edited after saving. If you made a mistake, ask the operations manager to record a correcting line in the ledger. Do not create a second receipt to fix the first one.
+
+# In-Kind Donations
+
+## What Counts as an In-Kind Donation
+An in-kind donation is stock given to the Organization by a donor, for example a company, a parish, a school or a private person. It is received under a goods received note like any other stock, but without a purchase order.
+
+A donation must record the donor name. The estimated value is optional: enter it if the donor or the delivery papers give one, and leave it empty if not. Never guess a value.
+
+Unmarked donations, where the donor did not ask for the stock to go to a specific project, are received into the project INKIND. If the donor asked for a project, such as the Emergency Appeal EA-2026, receive the donation into that project.
+
+## Receiving a Donation
+To receive an in-kind donation:
+1. Ask the person delivering for the donor's name and any letter or list that came with the goods.
+2. Count the donation in boxes and pieces and convert the count into pieces.
+3. Check expiry dates for every batch of food, hygiene and medical items.
+4. Separate anything that cannot be accepted, as described in the table below, and return it to the person delivering if possible.
+5. Create a goods received note of type donation and enter the donor name.
+6. Choose the project: INKIND for unmarked donations, or the project the donor named.
+7. Enter the estimated value only if it is written on the papers or given by the donor.
+8. Save the receipt, write the RCV number on the donor's list and give the donor a copy if asked.
+9. Label the stock with the RCV number and the project code and store it.
+
+TABLE: Table 5.1: Exceptions for donations
+| Situation | What to do |
+| Food with less than three months before expiry | Accept only after the operations manager approves; mark it for the next dispatch |
+| Medicines | Do not accept; medicines are received only by the medical department |
+| Opened or used clothing | Do not accept |
+| Donor wants a receipt with a value | Give the RCV copy without a value unless the value is on the donor's own papers |
+| Donation without any donor name | Record the donor as "Anonymous donor" and tell the operations manager |
+| Donation already promised to a centre | Receive it first, then dispatch it on a waybill; never hand it over directly |
+
+# Storing Stock
+
+## One Location per Project and Batch
+Every pallet, stack or shelf position holds one item, for one project, with one expiry date. If two projects hold the same item, store them in separate positions with a clear sign. Never put FA-2026 rice and EA-2026 rice on the same pallet, even when the bags look the same.
+
+The label on each position shows the item code, the project code, the expiry date and the RCV number of the receipt it came from.
+
+## First Expired, First Out
+FEFO means the batch with the nearest expiry date leaves first, whatever the order in which batches arrived. Store the nearest expiry at the front or on top so it is the easiest to pick.
+
+When the system proposes the batches for a waybill, it follows FEFO. Pick exactly the batches it proposes. If you cannot reach a batch, do not swap it for another one; ask the operations manager.
+
+## Good Storage Practice
+Keep stock off the floor on pallets, at least 30 cm from walls. Keep food away from cleaning products and fuel. Keep the receiving area and the dispatch area clear of stored stock. Check the roof and the walls for leaks after heavy rain, and move stock away from any wet spot at once.
+
+TABLE: Table 6.1: Storage conditions by family
+| Family | Maximum stack height | Special care |
+| Food | 6 boxes or 1.5 m | Dry, ventilated, away from chemicals |
+| Hygiene | 8 boxes | Keep liquids on lower shelves |
+| Medical | Shelves only | Room temperature, locked area |
+| Shelter | 2 m | Keep tarpaulins dry |
+| NFI | 2 m | Lamps and batteries in a locked cage |
+
+# Dispatching on a Waybill
+
+## Where Stock Can Go
+Stock leaves a warehouse on a waybill, numbered DSP-2026-00001 and onwards. A waybill sends stock to one of the Organization's own centres, sometimes to a department inside a centre (Social, Medical or Logistics), or to a partner organization. Each waybill has one destination and one project.
+
+## Preparing and Sending a Dispatch
+To dispatch stock on a waybill:
+1. Open a new waybill in the system and choose the project and the destination.
+2. If the destination is a centre, choose the department that will receive the stock, or leave it empty for the whole centre.
+3. Enter each item and the quantity in pieces. The system shows the boxes and pieces form.
+4. Let the system propose the batches by FEFO. Do not change the proposal.
+5. If the system refuses a line because the balance would go negative, stop and recount that item before going further.
+6. Save the waybill. The system gives it a number such as DSP-2026-00412.
+7. Print the waybill or write the DSP number on the paper waybill, two copies.
+8. Pick the stock from the proposed batches and check each item against the waybill.
+9. Load the truck and count the boxes again with the driver.
+10. Sign the waybill, ask the driver to sign, and keep one copy in the warehouse file.
+11. Send the second copy with the driver for the receiving centre or partner to sign.
+12. When the signed copy comes back, attach a photo of it to the waybill in the system.
+
+## Dispatch Exceptions
+TABLE: Table 7.1: Exceptions at dispatch
+| Situation | What to do |
+| Balance would become negative | Do not dispatch; recount, then report the difference to the operations manager |
+| Requested item belongs to another project | Do not dispatch from that project; ask the operations manager for a transfer first |
+| Batch proposed by FEFO is damaged | Do not pick it; record a damage report, then let the system propose the next batch |
+| Partner organization asks for more than the waybill | Give only what is on the waybill |
+| Truck cannot reach the destination | Unload and return the stock; the operations manager cancels the waybill with a reversing line |
+| Centre receives fewer pieces than sent | The centre writes the shortage on the waybill; the operations manager investigates |
+
+NOTE: Note: A partner organization signs for the stock at delivery. From that moment the stock is no longer in the Organization's system. Keep the signed waybill in the file for at least five years.
+
+# Transfers Between Warehouses and Projects
+
+## When a Transfer Is Needed
+A transfer moves stock between two warehouse and project pairs. There are two common cases: moving stock from one warehouse to another, and moving stock from one project to another inside the same warehouse when a donor agrees to it. Only an operations manager can create a transfer, numbered TRF-2026-00001 and onwards.
+
+## Sending a Transfer
+To send stock on a transfer:
+1. Check the transfer in the system: the source warehouse and project, the destination warehouse and project, the items and the quantities in pieces.
+2. Pick the batches the system proposes by FEFO.
+3. Mark the boxes with the TRF number and the destination project code.
+4. Load the truck, count the boxes with the driver, and confirm the dispatch in the system.
+5. Give the driver the transfer note with the TRF number.
+
+## Receiving a Transfer
+To receive an incoming transfer:
+1. Open the incoming transfer in the system and compare it with the transfer note.
+2. Count the stock in boxes and pieces and check the expiry dates.
+3. Confirm the quantities received. If pieces are missing or damaged, enter the real quantity and a remark.
+4. Store the stock under the destination project, never under the source project.
+
+NOTE: Note: A transfer from one project to another inside the same warehouse still needs the stock to be relabelled and moved to the positions of the new project, even though it never leaves the building.
+
+# Damage Reports and Write-Off
+
+## When to Write a Damage Report
+Write a damage report whenever stock in your warehouse can no longer be distributed: broken, wet, swollen, eaten by pests, stolen, or expired. A damage report is numbered DMG-2026-00001 and onwards. The damaged stock stays in the system until the report is approved.
+
+A damage report must include a written description of the incident. "Damaged" alone is not enough. Say what happened, when, where in the warehouse, and how many pieces are affected.
+
+## Recording Damaged Stock
+To record a damage report:
+1. Move the damaged stock to the quarantine area and keep it apart from good stock.
+2. Count the damaged pieces for each item, project and expiry date.
+3. Take at least two photos: one of the whole damaged stack and one close-up of the damage.
+4. Open a new damage report in the system and choose the warehouse and project.
+5. Enter each item, the expiry date and the quantity in pieces.
+6. Write the incident description, for example "Roof leak over aisle 3 on the night of 14 March; 3 boxes of rice wet and mouldy".
+7. Attach the photos and save. The system gives the report a number such as DMG-2026-00058.
+8. Write the DMG number on a sign on the quarantined stock.
+
+## Write-Off Approval
+A damage report becomes a write-off only when an operations manager approves it. Until then the stock is still counted in the balance, and it must stay in quarantine. The operations manager can approve the report, reject it with a reason, or ask for more information.
+
+When the report is approved, the system adds a write-off line to the ledger and the balance goes down. Destroy or dispose of the stock only after approval, and in the way the operations manager decides. If the report is rejected, the stock goes back to the shelf or is counted again.
+
+TABLE: Table 9.1: Types of damage and what to write
+| Type | Example of a good description | Disposal after approval |
+| Water damage | Roof leak over aisle 3; 3 boxes of rice wet | Destroy; keep photos |
+| Pests | Rats in lentil sacks, holes in 5 sacks | Destroy away from other stock |
+| Swollen or leaking cans | 12 cans of chickpeas swollen in one box | Destroy; never open |
+| Expired stock | 40 bars of soap expired on 31 January | As decided by the operations manager |
+| Theft or loss | 2 boxes of blankets missing after night of 3 May | Police report number in the description |
+| Broken in handling | Pallet fell from forklift, 8 jerrycans cracked | Recycle if possible |
+
+# Stock Counts
+
+## Cycle Counts and Full Counts
+Each warehouse does a cycle count every month and a full count once a year. In a cycle count the system chooses about twenty items, always including the items with the highest value and the items that moved most. In a full count every item, project and expiry date is counted.
+
+Counts are blind: the count sheet does not show the system balance. Count what is on the shelf, not what you expect to find.
+
+## Doing a Count
+To do a stock count:
+1. Stop all receipts, dispatches and transfers in the warehouse during the count.
+2. Print or open the count sheet for the warehouse.
+3. Count each position in boxes and loose pieces and convert to pieces.
+4. Write the project and the expiry date of each counted batch.
+5. Count the quarantine area separately and do not add it to the good stock.
+6. Enter the counted quantities in the system.
+7. The system shows the differences between the count and the balance.
+8. Recount every line with a difference before you submit.
+9. Submit the count. Differences go to the operations manager for review.
+
+TABLE: Table 10.1: Handling count differences
+| Difference | What happens |
+| Count equals balance | Nothing to do |
+| Small difference, under 2 percent of the balance and under 10 pieces | Operations manager can accept it; the system adds a count correction line |
+| Larger difference | Recount with a second person; then the operations manager investigates before any correction |
+| Stock found that is not in the system | Check recent receipts and transfers before adding anything |
+| Stock in the system that is not on the shelf | Check recent waybills and damage reports before any correction |
+
+# Expiry and Low-Stock Checks
+
+## Weekly Expiry Check
+Every Monday, open the expiry report for your warehouses. It lists every batch that expires in the next ninety days, by project.
+
+TABLE: Table 11.1: Expiry warning levels
+| Time before expiry | Colour in the report | What to do |
+| More than 90 days | Not listed | Normal FEFO dispatch |
+| 31 to 90 days | Yellow | Tell the operations manager so it is planned in the next dispatches |
+| 1 to 30 days | Orange | Dispatch first; ask about a transfer to a centre that can use it |
+| Expired | Red | Do not dispatch; move to quarantine and write a damage report |
+
+Expired cans, expired medicines and expired baby food are never distributed, not even "just a few days" after the date. Expired soap or blankets have no real expiry, but if a date is printed, follow it.
+
+## Low-Stock Check
+Every item has a minimum level per warehouse and project. The low-stock report lists every item below its minimum. Check it every Monday together with the expiry report and tell the operations manager about any item that is listed for the second week in a row.
+
+To report low stock:
+1. Open the low-stock report and filter by your warehouses.
+2. Check that each listed item is really low on the shelf, not just waiting for a receipt to be entered.
+3. Send the list to the operations manager with the number of weeks each item has been low.
+
+# The Purchase Order Sheet
+
+## How Purchase Orders Reach the Stock System
+Purchase orders are prepared by the procurement team in a shared Google Sheet. Each row is one line of a purchase order: the PO number, the item code, the project, the quantity in pieces, the supplier and the expected delivery warehouse.
+
+When the rows are ready, a person from procurement uses the menu button "Stock > Send purchase orders" in the sheet. An Apps Script sends the rows to the stock system. The stock system checks each row and either accepts it or rejects it with a reason. The result is written back in the last column of the sheet.
+
+Warehouse keepers do not edit the sheet. But you will see the result: a delivery can only be received against a purchase order that was accepted.
+
+TABLE: Table 12.1: Common rejection reasons
+| Reason shown in the sheet | Meaning | Who fixes it |
+| Unknown item code | The item code does not exist in the system | Administrator creates the item, then procurement sends again |
+| Warehouse not unlocked | The delivery warehouse has not joined the system yet | Administrator |
+| Quantity must be a whole number of pieces | Quantity has decimals or is in boxes | Procurement corrects the row |
+| Project not active | The project code is closed or misspelled | Procurement checks with the operations manager |
+| Duplicate PO line | This PO number and item were already sent | Procurement deletes the row |
+
+## If a Delivery Arrives Without an Accepted Purchase Order
+Do not receive it. Keep the truck waiting and call the operations manager, who will check the sheet with procurement. Stock received without an accepted purchase order cannot be entered later without a correcting line.
+
+# When the Connection Drops
+
+## Working on Paper
+The internet and the power are not always available. Work does not stop when the connection drops. Use the paper forms in Appendix D and enter them in the system as soon as the connection is back.
+
+To keep working when there is no connection:
+1. Write the date and time the connection dropped on the paper log.
+2. Use the paper goods received note, waybill or damage report form, with a paper number made of the warehouse code and a sequence, such as WH-12-P-001.
+3. Never dispatch more than you are sure is on the shelf, because the system cannot check the balance for you.
+4. Keep FEFO by reading the expiry dates on the labels.
+5. When the connection is back, enter the paper documents in the order they happened, oldest first.
+6. Write the system number (RCV, DSP or DMG) next to the paper number on each form.
+7. Tell the operations manager how many paper documents you entered and if any were refused by the system.
+
+NOTE: Note: This handbook is saved on your phone. You can open it and search it without any connection.
+
+## If the System Refuses a Paper Document
+If a paper waybill is refused because the balance would go negative, do not change the quantity to make it pass. Leave it unentered and call the operations manager, who will check the order of the documents and any missing receipt.
+
+# The Stock Card and the Ledger
+
+## Reading a Stock Card
+A stock card is the full movement history of one item in one warehouse and project. It lists every receipt, dispatch, transfer, write-off and count correction, with the date, the document number, the quantity in and out, and the balance after each line.
+
+Use the stock card to answer questions such as "where did these 50 blankets go" or "why is the balance different from last month". The stock card never changes: lines are only added.
+
+## Correcting a Mistake
+Because the ledger is only ever appended to, a mistake is corrected by adding a reversing line, not by editing or deleting the wrong one. Only an operations manager can add a correcting line, and every correcting line must point to the document it corrects.
+
+TABLE: Table 14.1: Examples of corrections
+| Mistake | Correction |
+| Receipt entered twice | Reversing line for the second receipt |
+| Wrong expiry date on a receipt | Reversing line, then a new line with the right date |
+| Waybill for the wrong project | Reversing line, then a new waybill on the right project |
+| Count correction entered by mistake | Reversing line pointing to the count |
+
+# Emergency Distributions
+
+## When an Emergency Starts
+During an emergency, such as a wave of displacement when families leave their villages and shelters open in schools, the Organization sets up a small emergency operations room. The team in the room decides which shelter needs what, which warehouse dispatches, and who confirms each delivery. Requests reach you from the operations room, not directly from shelters or volunteers.
+
+Emergency stock is usually held under the Emergency Appeal project, EA-2026. The rules of this handbook still apply in an emergency: every movement needs a document, quantities are in pieces, FEFO is followed and no balance may go negative. What changes is speed and the number of dispatches in a day.
+
+## Urgent Dispatch to a Shelter
+To prepare an urgent dispatch requested by the operations room:
+1. Confirm the request by message: shelter name, town, items, quantities in pieces and the project to use.
+2. Check the balances in the system before promising anything, and answer with what you can send.
+3. Create the waybill in the system with the shelter's centre as destination and the project the operations room named.
+4. Pick by FEFO and load, counting the boxes with the driver as for any dispatch.
+5. Send the operations room the DSP number, the number of boxes and the time the truck left.
+6. When the shelter confirms delivery, send the confirmation to the operations room and attach the signed waybill photo in the system.
+
+## When a Delivery Is Cancelled
+Roads close and access changes quickly in an emergency. If the operations room cancels a delivery before the truck leaves, unload the truck and put the stock back in its positions, then ask the operations manager to cancel the waybill with a reversing line. If the truck is already on the road, the driver brings the stock back to the same warehouse; never leave it at another warehouse or shelter without a new document.
+
+TABLE: Table 15.1: Emergency requests and answers
+| Request from the operations room | What to answer |
+| Send everything you have of an item | Send the quantity in pieces from the named project only, and say what is left |
+| Send stock from a project that is not EA-2026 | Ask the operations manager to confirm the project, or to create a transfer |
+| Deliver directly from a truck to families | Not allowed; stock goes to the shelter's centre on a waybill |
+| Confirm a delivery you did not see | Forward the shelter's confirmation; do not confirm it yourself |
+
+# Working Safely in the Warehouse
+
+## Lifting and Stacking
+Most injuries in warehouses come from lifting and from falling stacks. Lift with your legs, not your back, and ask for help with anything heavier than 25 kg, such as a sack of flour or rice. Never climb on stacks or shelves; use a ladder that is in good condition.
+
+Respect the maximum stack heights in Table 6.1. Put heavy boxes at the bottom and light boxes on top. Build stacks with the boxes crossed, like bricks in a wall, so they do not lean.
+
+## Fire and First Aid
+Every warehouse has at least two fire extinguishers near the doors, a first aid kit and a list of emergency numbers on the wall. Check every month that the extinguishers are in place and that their gauge is in the green zone. Keep exits clear at all times. Smoking is not allowed inside any warehouse.
+
+If a stack falls or someone is hurt:
+1. Stop all work and make the area safe; do not try to catch a falling stack.
+2. Give first aid if you are trained, and call for help if the injury is serious.
+3. Tell the operations manager the same day, even if nobody was hurt.
+4. Count the stock that fell and record a damage report for any pieces that can no longer be distributed.
+
+## Visitors and Keys
+Only the keeper, the operations manager and people they authorize may enter the storage area. Write every visitor in the visitors book with the time in and out. Keys stay with the keeper; a spare set is kept by the operations manager. If keys are lost, tell the operations manager the same day.
+
+# Monthly Closing
+
+## What to Finish Before the End of the Month
+At the end of every month each warehouse closes its month so that the reports are complete. The month is closed when every movement of the month is in the system and the cycle count is submitted.
+
+To close the month:
+1. Enter every paper document of the month that is still waiting, oldest first.
+2. Check that every waybill of the month has its signed copy attached.
+3. Check that no damage report of the month is waiting for your information.
+4. Submit the monthly cycle count.
+5. Run the expiry and low-stock reports and send them to the operations manager.
+6. Tell the operations manager that the warehouse month is closed.
+
+TABLE: Table 17.1: Monthly calendar
+| When | What |
+| Every Monday | Expiry report and low-stock report |
+| Every day | Enter receipts, waybills and damage reports the same day |
+| Last week of the month | Cycle count chosen by the system |
+| Last working day | Close the month |
+| Once a year, in December | Full count of every item |
+
+# Fiche Rapide en Français
+
+## Réception de Marchandises
+Toute marchandise entre dans l'entrepôt avec un bon de réception (RCV). Comptez en pièces, vérifiez la date de péremption de chaque lot, et ne rangez jamais la marchandise avant l'enregistrement du bon de réception. Un don en nature indique le nom du donateur; la valeur estimée est facultative.
+
+## Expédition et Bordereau
+Toute sortie se fait avec un bordereau d'expédition (DSP), vers un centre de l'Organisation, un département (social, médical, logistique) ou une organisation partenaire. Respectez la règle premier périmé, premier sorti. Le solde ne doit jamais devenir négatif.
+
+## Avarie et Péremption
+Pour toute marchandise abîmée ou périmée, rédigez un rapport d'avarie (DMG) avec une description écrite de l'incident et des photos. La mise au rebut n'a lieu qu'après l'approbation du responsable des opérations. Les conserves périmées ne sont jamais distribuées.
+
+## Sans Connexion
+Si la connexion est coupée, utilisez les formulaires papier et saisissez-les dans le système dès le retour de la connexion, du plus ancien au plus récent.
+
+# Quick Reference Cards
+
+## Card for Warehouse Keepers
+Print this page and keep it near the receiving area.
+
+TABLE: Table R.1: Keeper daily checklist
+| Moment | Check |
+| Truck arrives | Purchase order accepted, or donor name known |
+| Before signing a delivery note | Counted in pieces, expiry dates written, damage noted |
+| Before a dispatch | Balance enough, batches proposed by FEFO, project right |
+| Stock found broken, wet or expired | Quarantine, photos, damage report with a written description |
+| Connection drops | Paper forms, paper numbers WH-xx-P-nnn, enter later oldest first |
+| Every Monday | Expiry report and low-stock report |
+| End of month | Paper entered, waybills signed, cycle count submitted |
+
+PAGEBREAK
+## Card for Operations Managers
+TABLE: Table R.2: Operations manager checklist
+| Task | When |
+| Approve or reject damage reports | Within three working days of the report |
+| Create transfers between warehouses and projects | When a centre or project needs stock held elsewhere |
+| Review count differences | After every cycle count and full count |
+| Answer receipt problems (no purchase order, short expiry) | Same day, while the truck waits |
+| Add correcting lines to the ledger | Only with a reference to the document corrected |
+| Check closed months | First working day of the new month |
+
+PAGEBREAK
+## Card for Administrators
+TABLE: Table R.3: Administrator checklist
+| Task | Rule |
+| Unlock a warehouse | Only after the opening count is signed by the operations manager |
+| Create an item code | Family prefix, short name, number; pieces-per-box figure filled in |
+| Create a user account | One person, one account; assign only the warehouses they run |
+| Lock an account | Same day when a phone is lost or a person leaves |
+| Purchase order rejections for unknown items | Create the item, then tell procurement to send the row again |
+
+# Glossary
+
+## Terms Used in This Handbook
+TABLE: Table G.1: Glossary
+| Term | Meaning |
+| Balance | The number of pieces of one item, for one project and expiry date, in one warehouse |
+| Batch | Pieces of one item with the same expiry date |
+| Cycle count | Monthly count of about twenty items chosen by the system |
+| Damage report | Document (DMG) recording stock that can no longer be distributed |
+| FEFO | First expired, first out |
+| Goods received note | Document (RCV) recording stock coming into a warehouse |
+| In-kind donation | Stock given by a donor, received without a purchase order |
+| INKIND | Project used for donations not marked for a specific project |
+| Ledger | The list of all stock movements; lines are only added |
+| Pieces per box | The number of pieces in one full box of an item |
+| Quarantine area | Place where damaged or doubtful stock waits for a decision |
+| Stock card | Movement history of one item in one warehouse and project |
+| Transfer | Document (TRF) moving stock between warehouse and project pairs |
+| Unlocking | Bringing a warehouse into the stock system after its opening count |
+| Waybill | Document (DSP) for stock leaving a warehouse |
+| Write-off | Removal of damaged stock from the balance after approval |
