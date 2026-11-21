@@ -1,49 +1,37 @@
-$ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site
+$ python handbook/make_handbook.py
+Wrote warehouse-keeper-handbook.pdf: 42 pages
+Procedures running over a page break: 1
+  'The Five Rules to Remember' step 5: page 3 -> 4
+Tables starting at the top of a page: 3
+Tables continued on the next page: 4
+
+$ fieldguide build ... (Try it, both guides)
+Read 42 pages from warehouse-keeper-handbook.pdf
+Sections:        64
+Index terms:     1,021
+sections.json:   58 KB
+index.json:      27 KB
+Total download:  133 KB in 10 files
+Wrote site
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
 Index terms:     3,612
 sections.json:   412 KB
 index.json:      177 KB
-Total download:  637 KB in 10 files
+Total download:  638 KB in 10 files
+Wrote site/cert
+
+$ fieldguide build manuals/warehouse-keeper-handbook.pdf --out site --page-images --note ... --related ...
+Read 42 pages from warehouse-keeper-handbook.pdf
+Sections:        64
+Index terms:     1,021
+sections.json:   58 KB
+index.json:      27 KB
+Page images:     933 KB
+Total download:  1.04 MB in 52 files
 Wrote site
 
-$ node bench/run_bench.js site
-ok    shut off gas               want p.177      got: Natural Gas Shutoff (p. 177)
-ok    how many drops bleach gallon want p.27,135   got: Water Purification (p. 135)
-ok    tourniqet                  want p.102,103  got: Tourniquets (p. 102)
-ok    signs of shock             want p.103      got: Recognizing Shock (p. 103)
-ok    hypothermia symtoms        want p.114      got: Hypothermia (p. 114)
-ok    search marking door X      want p.206      got: Search Markings (p. 206)
-ok    extinguisher pass          want p.172      got: P.A.S.S. (p. 172)
-ok    heat stroke treatment      want p.115,116  got: Treatment (p. 116)
-top3  recovery position          want p.105      got: Exercise 3.2: Recovery Position (p. 106)
-ok    decontamination chemicals skin want p.239      got: Basic HAZMAT Decontamination Procedures (p. 239)
-ok    active shooter hide        want p.233,234  got: How to Respond When an Active Shooter is in Your Vicinity (p. 233)
-ok    enter building heavy damage want p.198      got: CERT volunteers are not to enter a building with heavy damage under any (p. 198)
-ok    classes of fire            want p.164      got: Classes of Fires (p. 164)
-ok    water per person per day   want p.26       got: Water (p. 26)
-ok    cribbing steps             want p.211,212  got: Leveraging and Cribbing Steps (p. 211)
-ok    jaw thrust                 want p.105,106  got: Jaw-thrust Maneuver (p. 105)
-ok    frostbit                   want p.114,115  got: Frostbite (p. 114)
-ok    carbon monoxde             want p.176      got: Carbon Monoxide (p. 176)
-ok    blanket carry              want p.216      got: Blanket Carry (p. 216)
-ok    splint broken leg          want p.110,111,112,113 got: Splint Illustrations (p. 112)
-ok    open airway                want p.104      got: Opening the Airway (p. 104)
-ok    stress reaction freeze flight want p.144      got: The Five Fs (p. 144)
-ok    shelter in place           want p.241,242  got: Shelter-in-Place (p. 241)
-ok    burn first aid             want p.107,108  got: Treating Burns (p. 107)
-ok    electrical emergency       want p.175,176  got: Responding to Electrical Emergencies (p. 175)
-ok    bleeding pressure          want p.101,102  got: Direct Pressure (p. 102)
-
-Questions:            26
-Top-1 accuracy:       25/26 (96%)
-Top-3 accuracy:       26/26 (100%)
-Sections:             342 from 268 pages
-Index size:           177 KB (51 KB gzipped)
-Download, no images:  637 KB in 10 files (188 KB gzipped)
-Search time:          median 0.05 ms, p95 2.85 ms (780 runs, Node v24.19.0)
-
-$ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site --page-images --source-url https://www.ready.gov/sites/default/files/2019.CERT_.Basic_.PM_FINAL_508c.pdf
+$ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site/cert --page-images --source-url ... --related ...
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
 Index terms:     3,612
@@ -51,9 +39,43 @@ sections.json:   412 KB
 index.json:      177 KB
 Page images:     6.53 MB
 Total download:  7.16 MB in 278 files
-Wrote site
+Wrote site/cert
 
-$ node bench/run_bench.js site
+$ node bench/run_bench.js site bench/handbook-questions.json
+top3  damged box                 want p.18       got: Terms Used in This Handbook (p. 33)
+ok    expired cans               want p.21       got: Weekly Expiry Check (p. 21)
+ok    who approves write off     want p.18       got: Write-Off Approval (p. 18)
+ok    12 boxes 6 pieces          want p.7        got: Counting in Pieces (p. 7)
+ok    fefo                       want p.14       got: First Expired, First Out (p. 14)
+ok    donation no value          want p.12       got: What Counts as an In-Kind Donation (p. 12)
+ok    waybill to partner         want p.16       got: Dispatch Exceptions (p. 15)
+ok    transfer between projects  want p.17       got: When a Transfer Is Needed (p. 17)
+ok    count diffrence            want p.20       got: Doing a Count (p. 20)
+ok    low stock report           want p.21       got: Low-Stock Check (p. 21)
+ok    purchase order rejected    want p.22       got: How Purchase Orders Reach the Stock System (p. 22)
+ok    no internet                want p.23       got: Working on Paper (p. 23)
+MISS  balance negative           want p.15       got: If the System Refuses a Paper Document (p. 23)
+MISS  recieve without po         want p.11       got: If a Delivery Arrives Without an Accepted Purchase Order (p. 22)
+MISS  less pieces than order     want p.11       got: Receiving a Donation (p. 12)
+ok    canned cheese pieces per box want p.7        got: Counting in Pieces (p. 7)
+top3  unlock warehouse           want p.5        got: Warehouses and Projects (p. 37)
+ok    stock card                 want p.24       got: Reading a Stock Card (p. 24)
+top3  short expiry donation      want p.12       got: Paper goods received note (p. 39)
+ok    shelter urgent dispatch    want p.25       got: Urgent Dispatch to a Shelter (p. 25)
+ok    réception marchandise      want p.29       got: Réception de Marchandises (p. 29)
+ok    rapport avarie             want p.29       got: Avarie et Péremption (p. 29)
+ok    sans connexion             want p.29       got: Sans Connexion (p. 29)
+
+Questions:            23
+Top-1 accuracy:       17/23 (74%)
+Top-3 accuracy:       20/23 (87%)
+Sections:             64 from 42 pages
+Index size:           27 KB (8 KB gzipped)
+Download, no images:  134 KB in 10 files (50 KB gzipped)
+Download, with images: 1.04 MB in 52 files (page images 933 KB)
+Search time:          median 0.02 ms, p95 0.53 ms (690 runs, Node v24.19.0)
+
+$ node bench/run_bench.js site/cert bench/cert-questions.json
 ok    shut off gas               want p.177      got: Natural Gas Shutoff (p. 177)
 ok    how many drops bleach gallon want p.27,135   got: Water Purification (p. 135)
 ok    tourniqet                  want p.102,103  got: Tourniquets (p. 102)
@@ -86,13 +108,20 @@ Top-1 accuracy:       25/26 (96%)
 Top-3 accuracy:       26/26 (100%)
 Sections:             342 from 268 pages
 Index size:           177 KB (51 KB gzipped)
-Download, no images:  641 KB in 10 files (189 KB gzipped)
+Download, no images:  643 KB in 10 files (189 KB gzipped)
 Download, with images: 7.16 MB in 278 files (page images 6.53 MB)
-Search time:          median 0.02 ms, p95 0.78 ms (780 runs, Node v24.19.0)
+Search time:          median 0.04 ms, p95 2.15 ms (780 runs, Node v24.19.0)
 
 $ python scripts/offline_check.py
-PASS  service worker active, 278 files cached
-PASS  page reloads with the network off
+PASS  /: service worker active, caches hold [52] files
+PASS  /cert/: service worker active, caches hold [52, 278] files
+PASS  / opens with the network off: 'Warehouse Keeper Handbook (sample)'
+PASS  status shows offline ('Offline · saved copy')
+PASS  a request outside the cache fails (really offline)
+PASS  search 'damged box' offline: 20 results, top: 'Terms Used in This Handbook'
+PASS  opened section 'Terms Used in This Handbook' with 6 highlighted terms
+PASS  shows the source page ('Page 33 of the original')
+PASS  /cert/ opens with the network off: 'CERT Basic Training Participant Manual'
 PASS  status shows offline ('Offline · saved copy')
 PASS  a request outside the cache fails (really offline)
 PASS  search 'shut of gass' offline: 20 results, top: 'Natural Gas Shutoff'

@@ -436,10 +436,11 @@ def build(out: Path = DEFAULT_OUT) -> dict:
     headers_footers(lay)
     lay.doc.set_toc(lay.toc)
     lay.doc.set_metadata({"title": "Warehouse Keeper Handbook (sample)", "author": "offline-field-guide demo",
-                          "subject": "Sample handbook written for a software demo; not an official document"})
+                          "subject": "Sample handbook written for a software demo; not an official document",
+                          "creationDate": "D:20261121000000Z", "modDate": "D:20261121000000Z"})
     out.parent.mkdir(parents=True, exist_ok=True)
     pages = lay.doc.page_count
-    lay.doc.save(str(out), garbage=3, deflate=True)
+    lay.doc.save(str(out), garbage=3, deflate=True, no_new_id=True)
     lay.doc.close()
     return {"pages": pages, "breaks": lay.breaks, "tables_at_top": lay.tables_at_top,
             "tables_split": lay.tables_split}
