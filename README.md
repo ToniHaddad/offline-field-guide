@@ -2,6 +2,8 @@
 
 Give it a long PDF manual and it builds a searchable guide that keeps working on a phone with no connection.
 
+**Live demo:** https://tonihaddad.github.io/offline-field-guide/
+
 <table>
 <tr>
 <td><img src="docs/results.png" width="250" alt="Search results for a misspelled query"></td>
