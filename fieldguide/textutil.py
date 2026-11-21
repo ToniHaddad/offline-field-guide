@@ -34,12 +34,17 @@ def stem(t: str) -> str:
         t = t[:-3] + "y"
     elif t.endswith("sses"):
         t = t[:-2]
+    elif len(t) > 4 and t.endswith(("xes", "ches", "shes", "zes")):  # boxes -> box
+        t = t[:-2]
     elif len(t) > 3 and t.endswith("s") and not t.endswith(("ss", "us", "is")):
         t = t[:-1]
     if len(t) >= 7 and t.endswith("ing"):
         t = t[:-3]
     elif len(t) >= 6 and t.endswith("ed"):
         t = t[:-2]
+    # "damage", "damaged", "damages" and "receive", "received" share a stem.
+    if len(t) > 4 and t.endswith("e"):
+        t = t[:-1]
     return t
 
 

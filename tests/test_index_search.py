@@ -48,7 +48,7 @@ def test_index_structure():
 
 
 def test_tokenizer_basics():
-    assert tokenize("Shutting off the GAS valves") == ["shutt", "off", "gas", "valve"]
+    assert tokenize("Shutting off the GAS valves") == ["shutt", "off", "gas", "valv"]
     assert tokenize("Injuries, bleeding!") == ["injury", "bleed"]
     assert tokenize("Remember P.A.S.S. at 5 p.m.") == ["remember", "pass", "5", "pm"]
 
@@ -63,7 +63,7 @@ def test_tokenizer_parity_with_javascript():
     samples = [
         "Shutting off the GAS valves",
         "Injuries, bleeding! Caf\u00e9 cr\u00e8me; 3-step check (10 min)",
-        "Classes", "processes", "glasses", "status", "basis", "studies", "tied", "controlled",
+        "Classes", "processes", "boxes", "matches", "damaged", "damage", "receive", "received", "glasses", "status", "basis", "studies", "tied", "controlled",
         "X-ray of the 2nd floor at 5:30 p.m.", "Use P.A.S.S. (U.S. rules), e.g. here",
         "  Tourniquets\u00a0and\tcribbing  ",
     ]
@@ -113,3 +113,46 @@ def test_javascript_search_returns_nothing_for_unknown_words(tmp_path):
     idx_path.write_text(json.dumps(build_index(make_sections())))
     res = json.loads(run_node(SEARCH_SCRIPT, str(idx_path), json.dumps(["zzzz qqqq"])))
     assert res["zzzz qqqq"] == []
+
+
+def ranking_sections():
+    def sec(i, title, text, path=()):
+        s = Section(f"r{i}", title, 2, list(path), {i + 1})
+        s.blocks = [{"t": "p", "text": text}]
+        return s
+
+    return [
+        sec(0, "Terms Used in This Handbook", "Damage report: document for damaged stock in a box.", ["Glossary"]),
+        sec(1, "Recording Damaged Stock", "Move the damaged box to quarantine and write the report."),
+        sec(2, "Receiving Stock", "Fewer pieces than ordered: receive what you counted."),
+        sec(3, "Opening Hours", "The warehouse opens at eight."),
+    ]
+
+
+def test_reference_sections_get_a_lower_weight():
+    from fieldguide.index import REFERENCE_WEIGHT, is_reference
+
+    secs = ranking_sections()
+    assert is_reference(secs[0]) and not is_reference(secs[1])
+    assert build_index(secs)["dw"] == [REFERENCE_WEIGHT, 1, 1, 1]
+
+
+def test_title_postings_list_heading_words_only():
+    idx = build_index(ranking_sections())
+    assert idx["titles"][idx["terms"].index("damag")] == [1]
+
+
+@needs_node
+@pytest.mark.parametrize(
+    "query, expected",
+    [
+        ("damged box", 1),        # the procedure, not the glossary entry
+        ("less pieces", 2),       # everyday synonym: less / fewer
+        ("receipt", 2),           # word family: receipt / receive
+    ],
+)
+def test_ranking_rules(tmp_path, query, expected):
+    idx_path = tmp_path / "index.json"
+    idx_path.write_text(json.dumps(build_index(ranking_sections())))
+    res = json.loads(run_node(SEARCH_SCRIPT, str(idx_path), json.dumps([query])))
+    assert res[query][0] == expected, res

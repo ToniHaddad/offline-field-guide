@@ -22,9 +22,12 @@
   function stem(t) {
     if (t.length > 4 && t.endsWith("ies")) t = t.slice(0, -3) + "y";
     else if (t.endsWith("sses")) t = t.slice(0, -2);
+    else if (t.length > 4 && /(x|ch|sh|z)es$/.test(t)) t = t.slice(0, -2);  // boxes -> box
     else if (t.length > 3 && t.endsWith("s") && !/(ss|us|is)$/.test(t)) t = t.slice(0, -1);
     if (t.length >= 7 && t.endsWith("ing")) t = t.slice(0, -3);
     else if (t.length >= 6 && t.endsWith("ed")) t = t.slice(0, -2);
+    // "damage", "damaged", "damages" and "receive", "received" share a stem.
+    if (t.length > 4 && t.endsWith("e")) t = t.slice(0, -1);
     return t;
   }
 
@@ -68,9 +71,36 @@
     return prev[lb];
   }
 
+  // A few everyday equivalents. A query word also matches its equivalents,
+  // at a lower weight. Kept short and general on purpose.
+  var SYNONYM_GROUPS = [
+    ["fewer", "less"],
+    ["purchase order", "po"],
+    ["receive", "receipt", "reception"],
+    ["broken", "damaged"],
+    ["amount", "quantity"]
+  ];
+  var SYNONYM_WEIGHT = 0.85;
+  var SYNONYMS = new Map();
+  SYNONYM_GROUPS.forEach(function (group) {
+    group.forEach(function (phrase) {
+      var key = tokenize(phrase);
+      if (key.length !== 1) return;  // only single words trigger a synonym
+      var alts = SYNONYMS.get(key[0]) || [];
+      group.forEach(function (other) {
+        if (other !== phrase) tokenize(other).forEach(function (t) { if (t !== key[0]) alts.push(t); });
+      });
+      SYNONYMS.set(key[0], alts);
+    });
+  });
+
+  var TITLE_BONUS = 0.6;  // extra score, in idf units, when the word is in the section's own heading
+
   function Index(data) {
     this.terms = data.terms;             // sorted vocabulary
     this.postings = data.postings;       // per term: flat [doc, tf, doc, tf, ...]
+    this.titles = data.titles || [];     // per term: docs whose heading has it
+    this.dw = data.dw || null;           // per doc: ranking weight (reference sections < 1)
     this.dl = data.dl;                   // weighted document lengths
     this.N = this.dl.length;
     this.avgdl = data.avgdl;
@@ -127,16 +157,24 @@
     var hits = new Uint8Array(N);
     var matched = new Set();
     var self = this;
+    var score = new Float64Array(N);
     qtokens.forEach(function (q) {
       var best = new Float64Array(N);   // best expansion per document for this token
-      self.expand(q).forEach(function (w, t) {
-        matched.add(self.terms[t]);
-        var idf = self.idf(t), p = self.postings[t];
-        for (var i = 0; i < p.length; i += 2) {
-          var doc = p[i], tf = p[i + 1];
-          var s = w * idf * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * self.dl[doc] / avgdl));
-          if (s > best[doc]) best[doc] = s;
-        }
+      var alts = [[q, 1]].concat((SYNONYMS.get(q) || []).map(function (a) { return [a, SYNONYM_WEIGHT]; }));
+      alts.forEach(function (alt) {
+        self.expand(alt[0]).forEach(function (w, t) {
+          w *= alt[1];
+          matched.add(self.terms[t]);
+          var idf = self.idf(t), p = self.postings[t], i;
+          score.fill(0);
+          for (i = 0; i < p.length; i += 2) {
+            var doc = p[i], tf = p[i + 1];
+            score[doc] = w * idf * (tf * (k1 + 1)) / (tf + k1 * (1 - b + b * self.dl[doc] / avgdl));
+          }
+          var tp = self.titles[t] || [];
+          for (i = 0; i < tp.length; i++) score[tp[i]] += w * idf * TITLE_BONUS;
+          for (i = 0; i < p.length; i += 2) if (score[p[i]] > best[p[i]]) best[p[i]] = score[p[i]];
+        });
       });
       for (var d = 0; d < N; d++) if (best[d] > 0) { total[d] += best[d]; hits[d]++; }
     });
@@ -145,7 +183,8 @@
     for (var d = 0; d < N; d++) {
       if (total[d] > 0) {
         // Favour sections that match every word of the query.
-        results.push({ doc: d, score: total[d] * (0.5 + 0.5 * hits[d] / n) });
+        var weight = self.dw ? self.dw[d] : 1;
+        results.push({ doc: d, score: weight * total[d] * (0.5 + 0.5 * hits[d] / n) });
       }
     }
     results.sort(function (x, y) { return y.score - x.score; });
