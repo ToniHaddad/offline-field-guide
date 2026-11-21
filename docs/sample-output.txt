@@ -7,7 +7,43 @@ index.json:      177 KB
 Total download:  637 KB in 10 files
 Wrote site
 
-$ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site --page-images --source-url ...
+$ node bench/run_bench.js site
+ok    shut off gas               want p.177      got: Natural Gas Shutoff (p. 177)
+ok    how many drops bleach gallon want p.27,135   got: Water Purification (p. 135)
+ok    tourniqet                  want p.102,103  got: Tourniquets (p. 102)
+ok    signs of shock             want p.103      got: Recognizing Shock (p. 103)
+ok    hypothermia symtoms        want p.114      got: Hypothermia (p. 114)
+ok    search marking door X      want p.206      got: Search Markings (p. 206)
+ok    extinguisher pass          want p.172      got: P.A.S.S. (p. 172)
+ok    heat stroke treatment      want p.115,116  got: Treatment (p. 116)
+top3  recovery position          want p.105      got: Exercise 3.2: Recovery Position (p. 106)
+ok    decontamination chemicals skin want p.239      got: Basic HAZMAT Decontamination Procedures (p. 239)
+ok    active shooter hide        want p.233,234  got: How to Respond When an Active Shooter is in Your Vicinity (p. 233)
+ok    enter building heavy damage want p.198      got: CERT volunteers are not to enter a building with heavy damage under any (p. 198)
+ok    classes of fire            want p.164      got: Classes of Fires (p. 164)
+ok    water per person per day   want p.26       got: Water (p. 26)
+ok    cribbing steps             want p.211,212  got: Leveraging and Cribbing Steps (p. 211)
+ok    jaw thrust                 want p.105,106  got: Jaw-thrust Maneuver (p. 105)
+ok    frostbit                   want p.114,115  got: Frostbite (p. 114)
+ok    carbon monoxde             want p.176      got: Carbon Monoxide (p. 176)
+ok    blanket carry              want p.216      got: Blanket Carry (p. 216)
+ok    splint broken leg          want p.110,111,112,113 got: Splint Illustrations (p. 112)
+ok    open airway                want p.104      got: Opening the Airway (p. 104)
+ok    stress reaction freeze flight want p.144      got: The Five Fs (p. 144)
+ok    shelter in place           want p.241,242  got: Shelter-in-Place (p. 241)
+ok    burn first aid             want p.107,108  got: Treating Burns (p. 107)
+ok    electrical emergency       want p.175,176  got: Responding to Electrical Emergencies (p. 175)
+ok    bleeding pressure          want p.101,102  got: Direct Pressure (p. 102)
+
+Questions:            26
+Top-1 accuracy:       25/26 (96%)
+Top-3 accuracy:       26/26 (100%)
+Sections:             342 from 268 pages
+Index size:           177 KB (51 KB gzipped)
+Download, no images:  637 KB in 10 files (188 KB gzipped)
+Search time:          median 0.05 ms, p95 2.85 ms (780 runs, Node v24.19.0)
+
+$ fieldguide build manuals/cert-basic-training-participant-manual.pdf --out site --page-images --source-url https://www.ready.gov/sites/default/files/2019.CERT_.Basic_.PM_FINAL_508c.pdf
 Read 268 pages from cert-basic-training-participant-manual.pdf
 Sections:        342
 Index terms:     3,612
@@ -52,7 +88,7 @@ Sections:             342 from 268 pages
 Index size:           177 KB (51 KB gzipped)
 Download, no images:  641 KB in 10 files (189 KB gzipped)
 Download, with images: 7.16 MB in 278 files (page images 6.53 MB)
-Search time:          median 0.03 ms, p95 0.76 ms (780 runs, Node v24.19.0)
+Search time:          median 0.02 ms, p95 0.78 ms (780 runs, Node v24.19.0)
 
 $ python scripts/offline_check.py
 PASS  service worker active, 278 files cached

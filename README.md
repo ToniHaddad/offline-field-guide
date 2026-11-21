@@ -98,10 +98,10 @@ Sections:             342 from 268 pages
 Index size:           177 KB (51 KB gzipped)
 Download, no images:  641 KB in 10 files (189 KB gzipped)
 Download, with images: 7.16 MB in 278 files (page images 6.53 MB)
-Search time:          median 0.03 ms, p95 0.76 ms (780 runs, Node v24.19.0)
+Search time:          median 0.02 ms, p95 0.78 ms (780 runs, Node v24.19.0)
 ```
 
-Search time varies between runs (I saw p95 from 0.8 to 3.3 ms); queries
+Search time varies between runs (p95 was between 0.8 and 3.3 ms across my runs); queries
 with a typo are the slow ones because they scan the vocabulary.
 
 Offline proof, `python scripts/offline_check.py` (Playwright, headless Chromium,
